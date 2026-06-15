@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Lock, Camera, User } from "lucide-react";
+import { Lock, Camera, User, RotateCw, Menu, HelpCircle } from "lucide-react";
 import { PhoneFrame, DemoBanner } from "@/components/app-shell";
 import { useSession, usePhoto } from "@/lib/bank-store";
 
@@ -14,11 +14,14 @@ export const Route = createFileRoute("/")({
   component: Login,
 });
 
+// CPF: 061.151.571-70 — exibimos os 3 dígitos do meio
+const CPF_MIDDLE = "151";
+
 function Login() {
   const navigate = useNavigate();
   const { logged, login } = useSession();
   const { photo, setPhoto } = usePhoto();
-  const [cpf, setCpf] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
   const [senha, setSenha] = useState("");
   const [err, setErr] = useState("");
 
@@ -26,10 +29,11 @@ function Login() {
     if (logged) navigate({ to: "/app" });
   }, [logged, navigate]);
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const clean = cpf.replace(/\D/g, "");
-    if (clean.length < 11) return setErr("Informe um CPF válido (11 dígitos).");
+  function onAccess() {
+    if (!showPwd) {
+      setShowPwd(true);
+      return;
+    }
     if (senha.length < 4) return setErr("Senha deve ter ao menos 4 dígitos.");
     login();
     navigate({ to: "/app" });
@@ -46,74 +50,75 @@ function Login() {
   return (
     <PhoneFrame>
       <DemoBanner />
-      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-6 pt-8 pb-24 relative">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-base font-extrabold">
-            B
+      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-6 pt-6 pb-28 relative flex-1">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-sm font-extrabold">
+              B
+            </div>
+            <div className="leading-tight">
+              <div className="text-base font-bold tracking-wide">bradesco</div>
+              <div className="text-[11px] opacity-90">empresas e negócios</div>
+            </div>
           </div>
-          <div className="leading-tight">
-            <div className="text-base font-bold tracking-wide">Bradesco</div>
-            <div className="text-[11px] opacity-80">empresas e negócios</div>
+          <div className="flex items-center gap-3">
+            <HelpCircle size={20} />
+            <Menu size={22} />
           </div>
         </div>
-        <h1 className="mt-12 text-2xl font-bold leading-tight">
+
+        <h1 className="mt-10 text-2xl font-bold leading-tight">
           Uma nova experiência<br />para o seu negócio
         </h1>
       </div>
 
-      <div className="-mt-16 mx-4 bg-white rounded-2xl shadow-xl p-5 z-10 relative">
-        <form onSubmit={onSubmit} className="space-y-3">
-          <label className="block">
-            <span className="text-xs text-slate-600">CPF</span>
-            <input
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
-              inputMode="numeric"
-              placeholder="000.000.000-00"
-              className="mt-1 w-full border-b border-slate-300 py-2 outline-none focus:border-[#cc092f] text-slate-900"
-            />
-          </label>
-          <label className="block">
-            <span className="text-xs text-slate-600">Senha</span>
+      <div className="-mt-20 mx-4 bg-white rounded-2xl shadow-xl p-5 z-10 relative">
+        <div className="flex items-center justify-between text-slate-800">
+          <div className="flex items-center gap-3">
+            <label className="cursor-pointer">
+              <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200">
+                {photo ? (
+                  <img src={photo} alt="foto" className="w-full h-full object-cover" />
+                ) : (
+                  <User size={18} className="text-slate-400" />
+                )}
+              </div>
+              <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
+            </label>
+            <div className="font-medium tracking-wide text-[15px]">
+              CPF <span className="mx-1">•••</span> {CPF_MIDDLE}{" "}
+              <span className="mx-1">•••</span>
+            </div>
+          </div>
+          <button className="flex items-center gap-1 text-[#1a2a8a] text-sm font-medium">
+            Remover <RotateCw size={14} />
+          </button>
+        </div>
+
+        {showPwd && (
+          <div className="mt-4">
             <input
               type="password"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              placeholder="••••••"
-              className="mt-1 w-full border-b border-slate-300 py-2 outline-none focus:border-[#cc092f] text-slate-900"
+              placeholder="Digite sua senha"
+              autoFocus
+              className="w-full border-b border-slate-300 py-2 outline-none focus:border-[#cc092f] text-slate-900"
             />
-          </label>
-
-          <div className="flex items-center gap-3 pt-2">
-            <label className="cursor-pointer flex items-center gap-2 text-sm text-[#cc092f]">
-              <div className="w-12 h-12 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200">
-                {photo ? (
-                  <img src={photo} alt="foto" className="w-full h-full object-cover" />
-                ) : (
-                  <User size={22} className="text-slate-400" />
-                )}
-              </div>
-              <span className="flex items-center gap-1">
-                <Camera size={14} /> {photo ? "Trocar foto" : "Adicionar foto"}
-              </span>
-              <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
-            </label>
           </div>
+        )}
 
-          {err && <p className="text-xs text-red-600">{err}</p>}
+        {err && <p className="text-xs text-red-600 mt-2">{err}</p>}
 
-          <button
-            type="submit"
-            className="w-full bg-[#cc092f] text-white font-semibold py-3 rounded-md mt-2"
-          >
-            Acessar conta
-          </button>
-        </form>
+        <button
+          onClick={onAccess}
+          className="w-full bg-[#3b2bb0] hover:bg-[#2f2390] text-white font-semibold py-3 rounded-md mt-4"
+        >
+          Acessar conta
+        </button>
       </div>
 
-      <div className="flex-1" />
-
-      <div className="p-4">
+      <div className="p-4 mt-auto">
         <button className="w-full border border-slate-300 text-slate-700 rounded-md py-3 flex items-center justify-center gap-2 text-sm">
           <Lock size={16} /> Chave de segurança
         </button>
