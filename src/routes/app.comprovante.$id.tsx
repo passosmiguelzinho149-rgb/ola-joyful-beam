@@ -36,7 +36,8 @@ function Comprovante() {
   const origin = t.origin ?? "";
   const cnpjMatch = origin.match(/\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/);
   const cnpj = cnpjMatch?.[0];
-  const payer = origin.replace(/\s*-?\s*CNPJ.*/i, "").trim() || "Transferência entre contas";
+  const payer = "MARCOS NUNES DE MIRANDA";
+  const payerCnpj = cnpj ?? "44.529.644/0001-47";
 
   return (
     <PhoneFrame>
@@ -56,7 +57,7 @@ function Comprovante() {
 
         <div className="rounded-xl border border-slate-200 divide-y divide-slate-200">
           <Row label={t.type === "in" ? "Pagador" : "Recebedor"} value={payer} />
-          {cnpj && <Row label="CNPJ" value={cnpj} />}
+          <Row label="CNPJ" value={payerCnpj} />
           <Row label="Instituição" value="Banco do demo - 001" />
           <Row label="Tipo" value="Pix" />
           <Row label="Descrição" value={t.description} />
