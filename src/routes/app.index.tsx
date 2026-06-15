@@ -111,7 +111,7 @@ function Home() {
                   to={q.to}
                   className="rounded-xl border border-slate-200 p-2 text-center text-[11px] text-slate-700 aspect-square flex flex-col items-center justify-center gap-1 hover:bg-slate-50"
                 >
-                  <Icon size={22} className="text-[#cc092f]" />
+                  <Icon size={22} className="text-[#1a2a8a]" />
                   <span className="leading-tight">{q.label}</span>
                 </Link>
               );
