@@ -72,7 +72,7 @@ function Home() {
           </div>
         </div>
 
-        <Link to="/app/extrato" className="flex items-center gap-1 text-black underline text-sm">
+        <Link to="/app/extrato" className="flex items-center gap-1 text-[#1a2a8a] underline text-sm">
           Consultar extrato <ChevronRight size={14} />
         </Link>
 
