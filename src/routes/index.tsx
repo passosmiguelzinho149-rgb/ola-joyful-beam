@@ -140,7 +140,7 @@ function Login() {
 
         <button
           onClick={onAccess}
-          className="w-full bg-[#3b2bb0] hover:bg-[#2f2390] text-white font-semibold py-3 rounded-md mt-4"
+          className="w-full bg-[#1a2a8a] hover:bg-[#142073] text-white font-semibold py-3 rounded-md mt-4"
         >
           Acessar conta
         </button>
@@ -149,7 +149,7 @@ function Login() {
       <div className="p-4 mt-auto space-y-2">
         <button
           onClick={onBiometria}
-          className="w-full bg-white border-2 border-[#3b2bb0] text-[#3b2bb0] rounded-md py-3 flex items-center justify-center gap-2 text-sm font-semibold"
+          className="w-full bg-white border-2 border-[#1a2a8a] text-[#1a2a8a] rounded-md py-3 flex items-center justify-center gap-2 text-sm font-semibold"
         >
           <Fingerprint size={18} /> Entrar com biometria
         </button>
