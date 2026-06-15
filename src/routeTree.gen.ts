@@ -9,38 +9,144 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppServicosRouteImport } from './routes/app.servicos'
+import { Route as AppPixRouteImport } from './routes/app.pix'
+import { Route as AppPerfilRouteImport } from './routes/app.perfil'
+import { Route as AppLinhasCreditoRouteImport } from './routes/app.linhas-credito'
+import { Route as AppExtratoRouteImport } from './routes/app.extrato'
+import { Route as AppPageRouteImport } from './routes/app.$page'
 
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppServicosRoute = AppServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPixRoute = AppPixRouteImport.update({
+  id: '/pix',
+  path: '/pix',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerfilRoute = AppPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLinhasCreditoRoute = AppLinhasCreditoRouteImport.update({
+  id: '/linhas-credito',
+  path: '/linhas-credito',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExtratoRoute = AppExtratoRouteImport.update({
+  id: '/extrato',
+  path: '/extrato',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPageRoute = AppPageRouteImport.update({
+  id: '/$page',
+  path: '/$page',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/app/$page': typeof AppPageRoute
+  '/app/extrato': typeof AppExtratoRoute
+  '/app/linhas-credito': typeof AppLinhasCreditoRoute
+  '/app/perfil': typeof AppPerfilRoute
+  '/app/pix': typeof AppPixRoute
+  '/app/servicos': typeof AppServicosRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app/$page': typeof AppPageRoute
+  '/app/extrato': typeof AppExtratoRoute
+  '/app/linhas-credito': typeof AppLinhasCreditoRoute
+  '/app/perfil': typeof AppPerfilRoute
+  '/app/pix': typeof AppPixRoute
+  '/app/servicos': typeof AppServicosRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/app/$page': typeof AppPageRoute
+  '/app/extrato': typeof AppExtratoRoute
+  '/app/linhas-credito': typeof AppLinhasCreditoRoute
+  '/app/perfil': typeof AppPerfilRoute
+  '/app/pix': typeof AppPixRoute
+  '/app/servicos': typeof AppServicosRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/app/$page'
+    | '/app/extrato'
+    | '/app/linhas-credito'
+    | '/app/perfil'
+    | '/app/pix'
+    | '/app/servicos'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/app/$page'
+    | '/app/extrato'
+    | '/app/linhas-credito'
+    | '/app/perfil'
+    | '/app/pix'
+    | '/app/servicos'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/app/$page'
+    | '/app/extrato'
+    | '/app/linhas-credito'
+    | '/app/perfil'
+    | '/app/pix'
+    | '/app/servicos'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +154,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/servicos': {
+      id: '/app/servicos'
+      path: '/servicos'
+      fullPath: '/app/servicos'
+      preLoaderRoute: typeof AppServicosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/pix': {
+      id: '/app/pix'
+      path: '/pix'
+      fullPath: '/app/pix'
+      preLoaderRoute: typeof AppPixRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/perfil': {
+      id: '/app/perfil'
+      path: '/perfil'
+      fullPath: '/app/perfil'
+      preLoaderRoute: typeof AppPerfilRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/linhas-credito': {
+      id: '/app/linhas-credito'
+      path: '/linhas-credito'
+      fullPath: '/app/linhas-credito'
+      preLoaderRoute: typeof AppLinhasCreditoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/extrato': {
+      id: '/app/extrato'
+      path: '/extrato'
+      fullPath: '/app/extrato'
+      preLoaderRoute: typeof AppExtratoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/$page': {
+      id: '/app/$page'
+      path: '/$page'
+      fullPath: '/app/$page'
+      preLoaderRoute: typeof AppPageRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppPageRoute: typeof AppPageRoute
+  AppExtratoRoute: typeof AppExtratoRoute
+  AppLinhasCreditoRoute: typeof AppLinhasCreditoRoute
+  AppPerfilRoute: typeof AppPerfilRoute
+  AppPixRoute: typeof AppPixRoute
+  AppServicosRoute: typeof AppServicosRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppPageRoute: AppPageRoute,
+  AppExtratoRoute: AppExtratoRoute,
+  AppLinhasCreditoRoute: AppLinhasCreditoRoute,
+  AppPerfilRoute: AppPerfilRoute,
+  AppPixRoute: AppPixRoute,
+  AppServicosRoute: AppServicosRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
