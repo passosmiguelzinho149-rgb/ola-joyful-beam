@@ -87,9 +87,5 @@ export function BottomNav() {
 }
 
 export function DemoBanner() {
-  return (
-    <div className="bg-amber-100 text-amber-900 text-[10px] text-center px-2 py-1">
-      Aplicativo de demonstração — não é uma instituição financeira real
-    </div>
-  );
+  return null;
 }
