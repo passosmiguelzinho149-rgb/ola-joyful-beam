@@ -1,6 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Home, MessageCircle, DollarSign, User, ArrowLeft, HelpCircle, Bell } from "lucide-react";
 import type { ReactNode } from "react";
+import { transactions } from "@/lib/bank-store";
 
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
@@ -38,12 +39,12 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
       </div>
       <div className="flex items-center gap-3">
         <HelpCircle size={20} />
-        <div className="relative">
+        <button onClick={() => navigate({ to: "/app/notificacoes" })} className="relative">
           <Bell size={20} />
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-[8px] flex items-center justify-center">
-            0
+          <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-red-500 rounded-full text-[9px] font-bold flex items-center justify-center">
+            {transactions.length}
           </span>
-        </div>
+        </button>
       </div>
     </div>
   );
