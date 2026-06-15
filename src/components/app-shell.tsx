@@ -1,7 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, MessageCircle, DollarSign, User, ArrowLeft, HelpCircle, Bell } from "lucide-react";
+import { Home, MessageCircle, DollarSign, User, ArrowLeft, HelpCircle, Bell, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
-import { transactions } from "@/lib/bank-store";
+import { transactions, useSession } from "@/lib/bank-store";
 
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
@@ -15,6 +15,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 
 export function BlueHeader({ title, showBack = false }: { title?: string; showBack?: boolean }) {
   const navigate = useNavigate();
+  const { logout } = useSession();
   return (
     <div className="bg-gradient-to-r from-[#1a2a8a] to-[#cc092f] text-white px-4 pt-4 pb-3 flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -44,6 +45,13 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
           <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-red-500 rounded-full text-[9px] font-bold flex items-center justify-center">
             {transactions.length}
           </span>
+        </button>
+        <button
+          onClick={() => { logout(); navigate({ to: "/" }); }}
+          aria-label="Sair"
+          title="Sair"
+        >
+          <LogOut size={20} />
         </button>
       </div>
     </div>
