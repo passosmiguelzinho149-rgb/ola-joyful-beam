@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
+import pixWoman from "@/assets/pix-woman.jpg";
 
 export const Route = createFileRoute("/app/")({
   component: Home,
@@ -80,12 +81,22 @@ function Home() {
           <h3 className="font-semibold text-slate-800 mb-2">Soluções para sua empresa</h3>
           <Link
             to="/app/pix"
-            className="block rounded-xl border border-slate-200 p-3 hover:bg-slate-50"
+            className="flex items-center gap-3 rounded-xl border border-slate-200 p-3 hover:bg-slate-50"
           >
-            <div className="font-semibold text-slate-800">Pix</div>
-            <p className="text-sm text-slate-600">
-              Pague, receba e transfira a qualquer hora do dia.
-            </p>
+            <img
+              src={pixWoman}
+              alt="Pix"
+              loading="lazy"
+              width={56}
+              height={56}
+              className="w-14 h-14 rounded-full object-cover shrink-0"
+            />
+            <div>
+              <div className="font-semibold text-slate-800">Pix</div>
+              <p className="text-sm text-slate-600">
+                Pague, receba e transfira a qualquer hora do dia.
+              </p>
+            </div>
           </Link>
         </div>
 
