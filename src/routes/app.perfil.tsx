@@ -31,7 +31,7 @@ function Perfil() {
   return (
     <PhoneFrame>
       <DemoBanner />
-      <div className="bg-[#cc092f] text-white px-4 pt-4 pb-8">
+      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-4 pt-4 pb-8">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-sm font-extrabold">B</div>
           <div className="leading-tight">
