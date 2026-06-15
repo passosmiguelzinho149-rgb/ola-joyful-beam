@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight } from "lucide-react";
+import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight, Zap, Landmark, CreditCard, Network, MessageCircle } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
 import pixWoman from "@/assets/pix-woman.jpg";
@@ -10,11 +10,11 @@ export const Route = createFileRoute("/app/")({
 });
 
 const quick = [
-  { to: "/app/pix", label: "Pix" },
-  { to: "/app/linhas-credito", label: "Linhas de Crédito" },
-  { to: "/app/cartoes", label: "Cartões" },
-  { to: "/app/open-finance", label: "Open Finance" },
-  { to: "/app/chat", label: "WhatsApp" },
+  { to: "/app/pix", label: "Pix", icon: Zap },
+  { to: "/app/linhas-credito", label: "Linhas de Crédito", icon: Landmark },
+  { to: "/app/cartoes", label: "Cartões", icon: CreditCard },
+  { to: "/app/open-finance", label: "Open Finance", icon: Network },
+  { to: "/app/chat", label: "WhatsApp", icon: MessageCircle },
 ] as const;
 
 function Home() {
@@ -103,19 +103,23 @@ function Home() {
         <div>
           <h3 className="font-semibold text-slate-800 mb-2">Acesso rápido</h3>
           <div className="grid grid-cols-4 gap-2">
-            {quick.map((q) => (
-              <Link
-                key={q.to}
-                to={q.to}
-                className="rounded-xl border border-slate-200 p-2 text-center text-[11px] text-slate-700 aspect-square flex items-center justify-center"
-              >
-                {q.label}
-              </Link>
-            ))}
+            {quick.map((q) => {
+              const Icon = q.icon;
+              return (
+                <Link
+                  key={q.to}
+                  to={q.to}
+                  className="rounded-xl border border-slate-200 p-2 text-center text-[11px] text-slate-700 aspect-square flex flex-col items-center justify-center gap-1 hover:bg-slate-50"
+                >
+                  <Icon size={22} className="text-[#cc092f]" />
+                  <span className="leading-tight">{q.label}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
 
-        <div className="rounded-xl bg-[#cc092f] text-white p-4 text-sm">
+        <div className="rounded-xl bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white p-4 text-sm">
           <b>Vai pagar boleto? Atenção!</b>
           <p className="mt-1 opacity-90">
             Confira os dados e valide a origem antes de confirmar qualquer transação.
