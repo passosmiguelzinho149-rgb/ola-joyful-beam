@@ -24,7 +24,7 @@ function Home() {
   return (
     <PhoneFrame>
       <DemoBanner />
-      <div className="bg-gradient-to-b from-[#cc092f] via-[#a8092a] to-[#6b0a25] text-white">
+      <div className="bg-[#cc092f] text-white">
         <BlueHeader />
         <div className="px-4 pt-2 pb-6">
           <h2 className="text-lg font-bold leading-tight">Olá, {bankInfo.holder}</h2>
@@ -104,7 +104,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="rounded-xl bg-gradient-to-r from-[#cc092f] to-[#6b0a25] text-white p-4 text-sm">
+        <div className="rounded-xl bg-[#cc092f] text-white p-4 text-sm">
           <b>Vai pagar boleto? Atenção!</b>
           <p className="mt-1 opacity-90">
             Confira os dados e valide a origem antes de confirmar qualquer transação.
