@@ -26,7 +26,7 @@ function Pix() {
     <PhoneFrame>
       <DemoBanner />
       <BlueHeader title="Pix" showBack />
-      <div className="bg-[#1f2db4] text-white px-4 pb-6">
+      <div className="bg-[#cc092f] text-white px-4 pb-6">
         <h1 className="text-xl font-bold">Pix para sua empresa</h1>
         <p className="text-sm mt-1">Como você quer transferir?</p>
       </div>
@@ -34,18 +34,18 @@ function Pix() {
         <div className="rounded-xl border border-slate-200 p-3 bg-white shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-slate-700">Digitar ou colar nome/chave</span>
-            <Copy size={16} className="text-[#1f2db4]" />
+            <Copy size={16} className="text-[#cc092f]" />
           </div>
           <input className="mt-2 w-full text-sm border-t border-slate-200 pt-2 outline-none" placeholder="Pode ser o nome do contato ou uma chave Pix" />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <button className="rounded-xl border border-slate-200 p-3 flex items-start gap-2">
-            <Star className="text-[#1f2db4]" size={20} />
+            <Star className="text-[#cc092f]" size={20} />
             <span className="text-sm text-left">Escolher um contato</span>
           </button>
           <button className="rounded-xl border border-slate-200 p-3 flex items-start gap-2">
-            <Building2 className="text-[#1f2db4]" size={20} />
+            <Building2 className="text-[#cc092f]" size={20} />
             <span className="text-sm text-left">Digitar agência e conta</span>
           </button>
         </div>
@@ -57,7 +57,7 @@ function Pix() {
               const I = s.icon;
               return (
                 <div key={s.label} className="rounded-xl border border-slate-200 p-3 text-center">
-                  <I className="text-[#1f2db4] mx-auto" size={22} />
+                  <I className="text-[#cc092f] mx-auto" size={22} />
                   <div className="text-[11px] mt-2 text-slate-700">{s.label}</div>
                 </div>
               );
@@ -72,7 +72,7 @@ function Pix() {
               const I = m.icon;
               return (
                 <div key={m.label} className="rounded-xl border border-slate-200 p-3 flex items-center gap-2">
-                  <I className="text-[#1f2db4]" size={18} />
+                  <I className="text-[#cc092f]" size={18} />
                   <span className="text-sm text-slate-700">{m.label}</span>
                 </div>
               );

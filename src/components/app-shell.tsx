@@ -16,7 +16,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 export function BlueHeader({ title, showBack = false }: { title?: string; showBack?: boolean }) {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1f2db4] text-white px-4 pt-4 pb-3 flex items-center justify-between">
+    <div className="bg-[#cc092f] text-white px-4 pt-4 pb-3 flex items-center justify-between">
       <div className="flex items-center gap-2">
         {showBack && (
           <button onClick={() => navigate({ to: "/app" })} className="p-1">
@@ -27,11 +27,11 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
           <span className="text-lg font-semibold">{title}</span>
         ) : (
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
+            <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-sm font-extrabold">
               B
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-bold">banco demo</div>
+              <div className="text-sm font-bold tracking-wide">Bradesco</div>
               <div className="text-[10px] opacity-80">empresas e negócios</div>
             </div>
           </div>
@@ -67,7 +67,7 @@ export function BottomNav() {
           <Link
             key={i.to}
             to={i.to}
-            className={`flex flex-col items-center text-[11px] ${active ? "text-[#1f2db4] font-semibold" : "text-slate-600"}`}
+            className={`flex flex-col items-center text-[11px] ${active ? "text-[#cc092f] font-semibold" : "text-slate-600"}`}
           >
             <Icon size={20} />
             <span className="mt-0.5">{i.label}</span>
