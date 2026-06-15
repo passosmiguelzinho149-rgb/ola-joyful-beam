@@ -46,7 +46,7 @@ function Login() {
   return (
     <PhoneFrame>
       <DemoBanner />
-      <div className="bg-[#cc092f] text-white px-6 pt-8 pb-24 relative">
+      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-6 pt-8 pb-24 relative">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-base font-extrabold">
             B

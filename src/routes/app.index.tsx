@@ -24,7 +24,7 @@ function Home() {
   return (
     <PhoneFrame>
       <DemoBanner />
-      <div className="bg-[#cc092f] text-white">
+      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white">
         <BlueHeader />
         <div className="px-4 pt-2 pb-6">
           <h2 className="text-lg font-bold leading-tight">Olá, {bankInfo.holder}</h2>

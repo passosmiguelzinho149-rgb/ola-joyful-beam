@@ -26,7 +26,7 @@ function Pix() {
     <PhoneFrame>
       <DemoBanner />
       <BlueHeader title="Pix" showBack />
-      <div className="bg-[#cc092f] text-white px-4 pb-6">
+      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-4 pb-6">
         <h1 className="text-xl font-bold">Pix para sua empresa</h1>
         <p className="text-sm mt-1">Como você quer transferir?</p>
       </div>
