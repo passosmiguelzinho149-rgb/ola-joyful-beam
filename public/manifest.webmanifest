@@ -1,7 +1,7 @@
 {
-  "name": "Bradesco Empresas e Negócios",
-  "short_name": "Bradesco",
-  "description": "App bancário de demonstração — empresas e negócios.",
+  "name": "Bradesco Empresa",
+  "short_name": "Bradesco Empresa",
+  "description": "App bancário de demonstração — Bradesco Empresa.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
