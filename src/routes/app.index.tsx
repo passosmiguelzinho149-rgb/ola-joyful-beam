@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight, Zap, Landmark, CreditCard, Network, MessageCircle } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
-import pixWoman from "@/assets/pix-woman.jpg";
+import pixWoman from "@/assets/pix-woman-new.jpg";
 
 export const Route = createFileRoute("/app/")({
   component: Home,
