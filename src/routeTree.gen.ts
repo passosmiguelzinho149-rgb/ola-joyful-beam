@@ -15,6 +15,7 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppServicosRouteImport } from './routes/app.servicos'
 import { Route as AppPixRouteImport } from './routes/app.pix'
 import { Route as AppPerfilRouteImport } from './routes/app.perfil'
+import { Route as AppNotificacoesRouteImport } from './routes/app.notificacoes'
 import { Route as AppLinhasCreditoRouteImport } from './routes/app.linhas-credito'
 import { Route as AppExtratoRouteImport } from './routes/app.extrato'
 import { Route as AppPageRouteImport } from './routes/app.$page'
@@ -49,6 +50,11 @@ const AppPerfilRoute = AppPerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => AppRoute,
 } as any)
+const AppNotificacoesRoute = AppNotificacoesRouteImport.update({
+  id: '/notificacoes',
+  path: '/notificacoes',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppLinhasCreditoRoute = AppLinhasCreditoRouteImport.update({
   id: '/linhas-credito',
   path: '/linhas-credito',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/app/$page': typeof AppPageRoute
   '/app/extrato': typeof AppExtratoRoute
   '/app/linhas-credito': typeof AppLinhasCreditoRoute
+  '/app/notificacoes': typeof AppNotificacoesRoute
   '/app/perfil': typeof AppPerfilRoute
   '/app/pix': typeof AppPixRoute
   '/app/servicos': typeof AppServicosRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/app/$page': typeof AppPageRoute
   '/app/extrato': typeof AppExtratoRoute
   '/app/linhas-credito': typeof AppLinhasCreditoRoute
+  '/app/notificacoes': typeof AppNotificacoesRoute
   '/app/perfil': typeof AppPerfilRoute
   '/app/pix': typeof AppPixRoute
   '/app/servicos': typeof AppServicosRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/app/$page': typeof AppPageRoute
   '/app/extrato': typeof AppExtratoRoute
   '/app/linhas-credito': typeof AppLinhasCreditoRoute
+  '/app/notificacoes': typeof AppNotificacoesRoute
   '/app/perfil': typeof AppPerfilRoute
   '/app/pix': typeof AppPixRoute
   '/app/servicos': typeof AppServicosRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/app/$page'
     | '/app/extrato'
     | '/app/linhas-credito'
+    | '/app/notificacoes'
     | '/app/perfil'
     | '/app/pix'
     | '/app/servicos'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/app/$page'
     | '/app/extrato'
     | '/app/linhas-credito'
+    | '/app/notificacoes'
     | '/app/perfil'
     | '/app/pix'
     | '/app/servicos'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/app/$page'
     | '/app/extrato'
     | '/app/linhas-credito'
+    | '/app/notificacoes'
     | '/app/perfil'
     | '/app/pix'
     | '/app/servicos'
@@ -182,6 +194,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPerfilRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/notificacoes': {
+      id: '/app/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/app/notificacoes'
+      preLoaderRoute: typeof AppNotificacoesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/linhas-credito': {
       id: '/app/linhas-credito'
       path: '/linhas-credito'
@@ -210,6 +229,7 @@ interface AppRouteChildren {
   AppPageRoute: typeof AppPageRoute
   AppExtratoRoute: typeof AppExtratoRoute
   AppLinhasCreditoRoute: typeof AppLinhasCreditoRoute
+  AppNotificacoesRoute: typeof AppNotificacoesRoute
   AppPerfilRoute: typeof AppPerfilRoute
   AppPixRoute: typeof AppPixRoute
   AppServicosRoute: typeof AppServicosRoute
@@ -220,6 +240,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPageRoute: AppPageRoute,
   AppExtratoRoute: AppExtratoRoute,
   AppLinhasCreditoRoute: AppLinhasCreditoRoute,
+  AppNotificacoesRoute: AppNotificacoesRoute,
   AppPerfilRoute: AppPerfilRoute,
   AppPixRoute: AppPixRoute,
   AppServicosRoute: AppServicosRoute,
