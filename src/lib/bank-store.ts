@@ -30,7 +30,7 @@ export const transactions: Transaction[] = [
     id: "t3",
     date: "18/06/2026",
     description: "Pix recebido",
-    origin: "CNPJ 44.529.440/0001-47",
+    origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
     type: "in",
     amount: 32_000_000,
   },

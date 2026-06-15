@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowDown, ArrowUp, ChevronRight } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { formatBRL, transactions } from "@/lib/bank-store";
 
@@ -16,7 +16,12 @@ function Extrato() {
         <h1 className="text-xl font-bold text-slate-900 mb-3">Últimas movimentações</h1>
         <div className="space-y-3">
           {transactions.map((t) => (
-            <div key={t.id} className="rounded-xl border border-slate-200 p-3">
+            <Link
+              key={t.id}
+              to="/app/comprovante/$id"
+              params={{ id: t.id }}
+              className="block rounded-xl border border-slate-200 p-3 hover:bg-slate-50"
+            >
               <div className="flex justify-between text-xs text-slate-500">
                 <span>{t.date}</span>
                 <span className={t.type === "in" ? "text-green-600" : "text-red-600"}>
@@ -36,8 +41,10 @@ function Extrato() {
                 <div className={`font-bold ${t.type === "in" ? "text-green-700" : "text-red-700"}`}>
                   {t.type === "in" ? "+" : "-"} {formatBRL(t.amount)}
                 </div>
+                <ChevronRight size={16} className="text-slate-400" />
               </div>
-            </div>
+              <div className="text-[11px] text-[#cc092f] mt-2 text-right">Ver comprovante ›</div>
+            </Link>
           ))}
         </div>
       </div>
