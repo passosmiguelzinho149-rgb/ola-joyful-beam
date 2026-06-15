@@ -14,7 +14,7 @@ const COMPANY = "63.031.988 CLEITON OLIVEIRA DOS PASSOS";
 const CNPJ = "63.031.988/0001-76";
 const AGENCY = "2700";
 const ACCOUNT = "3574-2";
-const BALANCE = 132_000_000 + 26_450_000 + 32_000_000 + 32_000_000;
+const BALANCE = 132_000_000;
 
 export const bankInfo = {
   holder: HOLDER,
