@@ -7,7 +7,7 @@ import { useSession, usePhoto } from "@/lib/bank-store";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Banco Demo — Login" },
+      { title: "Bradesco — Login" },
       { name: "description", content: "App bancário fictício de demonstração." },
     ],
   }),
