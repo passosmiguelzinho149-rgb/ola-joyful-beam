@@ -19,7 +19,7 @@ function Linhas() {
     <PhoneFrame>
       <DemoBanner />
       <BlueHeader title="Linhas de Crédito" showBack />
-      <div className="bg-[#cc092f] text-white px-4 pb-8">
+      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-4 pb-8">
         <h1 className="text-2xl font-bold">Crédito para empresa</h1>
       </div>
       <div className="bg-white flex-1 px-4 py-4 -mt-4 space-y-4">

@@ -16,7 +16,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 export function BlueHeader({ title, showBack = false }: { title?: string; showBack?: boolean }) {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#cc092f] text-white px-4 pt-4 pb-3 flex items-center justify-between">
+    <div className="bg-gradient-to-r from-[#1a2a8a] to-[#cc092f] text-white px-4 pt-4 pb-3 flex items-center justify-between">
       <div className="flex items-center gap-2">
         {showBack && (
           <button onClick={() => navigate({ to: "/app" })} className="p-1">
