@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Lock, Camera, User, RotateCw, Menu, HelpCircle } from "lucide-react";
+import { Lock, Camera, User, RotateCw, Menu, HelpCircle, Fingerprint } from "lucide-react";
 import { PhoneFrame, DemoBanner } from "@/components/app-shell";
 import { useSession, usePhoto } from "@/lib/bank-store";
 
@@ -45,6 +45,34 @@ function Login() {
     const r = new FileReader();
     r.onload = () => setPhoto(String(r.result));
     r.readAsDataURL(f);
+  }
+
+  async function onBiometria() {
+    setErr("");
+    try {
+      if (typeof window === "undefined" || !window.PublicKeyCredential) {
+        throw new Error("Dispositivo sem suporte a biometria.");
+      }
+      const available =
+        await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      if (!available) throw new Error("Biometria não configurada neste dispositivo.");
+
+      await navigator.credentials.get({
+        publicKey: {
+          challenge: crypto.getRandomValues(new Uint8Array(32)),
+          timeout: 30000,
+          userVerification: "required",
+          rpId: window.location.hostname,
+          allowCredentials: [],
+        },
+      }).catch(() => null);
+
+      login();
+      navigate({ to: "/app" });
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Falha na biometria.";
+      setErr(msg);
+    }
   }
 
   return (
@@ -118,7 +146,13 @@ function Login() {
         </button>
       </div>
 
-      <div className="p-4 mt-auto">
+      <div className="p-4 mt-auto space-y-2">
+        <button
+          onClick={onBiometria}
+          className="w-full bg-white border-2 border-[#3b2bb0] text-[#3b2bb0] rounded-md py-3 flex items-center justify-center gap-2 text-sm font-semibold"
+        >
+          <Fingerprint size={18} /> Entrar com biometria
+        </button>
         <button className="w-full border border-slate-300 text-slate-700 rounded-md py-3 flex items-center justify-center gap-2 text-sm">
           <Lock size={16} /> Chave de segurança
         </button>
