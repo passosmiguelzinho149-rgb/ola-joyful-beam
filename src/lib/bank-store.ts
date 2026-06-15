@@ -32,7 +32,7 @@ export const transactions: Transaction[] = [
     description: "Pix recebido",
     origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
     type: "in",
-    amount: 32_000_000,
+    amount: 52_625_000,
   },
   {
     id: "t2",
@@ -40,7 +40,7 @@ export const transactions: Transaction[] = [
     description: "Pix recebido",
     origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
     type: "in",
-    amount: 32_000_000,
+    amount: 52_625_000,
   },
   {
     id: "t1",
@@ -48,7 +48,7 @@ export const transactions: Transaction[] = [
     description: "Pix recebido",
     origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
     type: "in",
-    amount: 26_450_000,
+    amount: 26_750_000,
   },
 ];
 
