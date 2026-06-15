@@ -57,7 +57,7 @@ function Comprovante() {
 
         <div className="rounded-xl border border-slate-200 divide-y divide-slate-200">
           <Row label={t.type === "in" ? "Pagador" : "Recebedor"} value={payer} />
-          {cnpj && <Row label="CNPJ" value={cnpj} />}
+          <Row label="CNPJ" value={payerCnpj} />
           <Row label="Instituição" value="Banco do demo - 001" />
           <Row label="Tipo" value="Pix" />
           <Row label="Descrição" value={t.description} />
