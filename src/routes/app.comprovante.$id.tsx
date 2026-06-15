@@ -30,7 +30,14 @@ export const Route = createFileRoute("/app/comprovante/$id")({
 
 function Comprovante() {
   const t = Route.useLoaderData();
-  const auth = "E" + Math.random().toString(36).slice(2, 12).toUpperCase() + Date.now().toString(36).toUpperCase();
+  // Padrão Pix Bacen: E + ISPB(8) + AAAAMMDDHHMM + 11 alfanuméricos
+  const ispb = "60746948"; // ISPB Bradesco
+  const [dd, mm, yyyy] = t.date.split("/");
+  const stamp = `${yyyy}${mm}${dd}1032`;
+  const rand = Array.from({ length: 11 }, () =>
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random() * 36)]
+  ).join("");
+  const auth = `E${ispb}${stamp}${rand}`;
 
   // Heurística para extrair pagador/CNPJ do campo origin
   const origin = t.origin ?? "";
