@@ -19,6 +19,7 @@ import { Route as AppNotificacoesRouteImport } from './routes/app.notificacoes'
 import { Route as AppLinhasCreditoRouteImport } from './routes/app.linhas-credito'
 import { Route as AppExtratoRouteImport } from './routes/app.extrato'
 import { Route as AppPageRouteImport } from './routes/app.$page'
+import { Route as AppComprovanteIdRouteImport } from './routes/app.comprovante.$id'
 
 const AppRoute = AppRouteImport.update({
   id: '/app',
@@ -70,6 +71,11 @@ const AppPageRoute = AppPageRouteImport.update({
   path: '/$page',
   getParentRoute: () => AppRoute,
 } as any)
+const AppComprovanteIdRoute = AppComprovanteIdRouteImport.update({
+  id: '/comprovante/$id',
+  path: '/comprovante/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/app/pix': typeof AppPixRoute
   '/app/servicos': typeof AppServicosRoute
   '/app/': typeof AppIndexRoute
+  '/app/comprovante/$id': typeof AppComprovanteIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/app/pix': typeof AppPixRoute
   '/app/servicos': typeof AppServicosRoute
   '/app': typeof AppIndexRoute
+  '/app/comprovante/$id': typeof AppComprovanteIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/app/pix': typeof AppPixRoute
   '/app/servicos': typeof AppServicosRoute
   '/app/': typeof AppIndexRoute
+  '/app/comprovante/$id': typeof AppComprovanteIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/app/pix'
     | '/app/servicos'
     | '/app/'
+    | '/app/comprovante/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/app/pix'
     | '/app/servicos'
     | '/app'
+    | '/app/comprovante/$id'
   id:
     | '__root__'
     | '/'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/app/pix'
     | '/app/servicos'
     | '/app/'
+    | '/app/comprovante/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -222,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPageRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/comprovante/$id': {
+      id: '/app/comprovante/$id'
+      path: '/comprovante/$id'
+      fullPath: '/app/comprovante/$id'
+      preLoaderRoute: typeof AppComprovanteIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -234,6 +253,7 @@ interface AppRouteChildren {
   AppPixRoute: typeof AppPixRoute
   AppServicosRoute: typeof AppServicosRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppComprovanteIdRoute: typeof AppComprovanteIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -245,6 +265,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPixRoute: AppPixRoute,
   AppServicosRoute: AppServicosRoute,
   AppIndexRoute: AppIndexRoute,
+  AppComprovanteIdRoute: AppComprovanteIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
