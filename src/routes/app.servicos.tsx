@@ -39,7 +39,7 @@ function Servicos() {
       <div className="bg-white flex-1 px-4 py-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold text-slate-900">Serviços</h1>
-          <button className="border border-[#1f2db4] text-[#1f2db4] rounded-full px-4 py-1 text-sm">
+          <button className="border border-[#cc092f] text-[#cc092f] rounded-full px-4 py-1 text-sm">
             Personalizar
           </button>
         </div>
@@ -52,7 +52,7 @@ function Servicos() {
                 to={s.to}
                 className="aspect-square rounded-xl border border-slate-200 hover:bg-slate-50 flex flex-col items-center justify-center p-2 text-center"
               >
-                <Icon size={26} className="text-[#1f2db4]" />
+                <Icon size={26} className="text-[#cc092f]" />
                 <span className="text-[11px] mt-2 text-slate-700 leading-tight">{s.label}</span>
               </Link>
             );

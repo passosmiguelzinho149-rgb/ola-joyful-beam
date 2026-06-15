@@ -16,7 +16,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 export function BlueHeader({ title, showBack = false }: { title?: string; showBack?: boolean }) {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1f2db4] text-white px-4 pt-4 pb-3 flex items-center justify-between">
+    <div className="bg-[#cc092f] text-white px-4 pt-4 pb-3 flex items-center justify-between">
       <div className="flex items-center gap-2">
         {showBack && (
           <button onClick={() => navigate({ to: "/app" })} className="p-1">
@@ -67,7 +67,7 @@ export function BottomNav() {
           <Link
             key={i.to}
             to={i.to}
-            className={`flex flex-col items-center text-[11px] ${active ? "text-[#1f2db4] font-semibold" : "text-slate-600"}`}
+            className={`flex flex-col items-center text-[11px] ${active ? "text-[#cc092f] font-semibold" : "text-slate-600"}`}
           >
             <Icon size={20} />
             <span className="mt-0.5">{i.label}</span>

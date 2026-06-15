@@ -14,7 +14,7 @@ function Notificacoes() {
       <BlueHeader title="Notificações" showBack />
       <div className="bg-white flex-1 px-4 py-4">
         <div className="flex items-center gap-2 mb-3">
-          <Bell size={18} className="text-[#1f2db4]" />
+          <Bell size={18} className="text-[#cc092f]" />
           <h1 className="text-lg font-bold text-slate-900">Suas notificações</h1>
         </div>
         <div className="space-y-3">

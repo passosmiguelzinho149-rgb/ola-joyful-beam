@@ -70,7 +70,7 @@ function Login() {
               onChange={(e) => setCpf(e.target.value)}
               inputMode="numeric"
               placeholder="000.000.000-00"
-              className="mt-1 w-full border-b border-slate-300 py-2 outline-none focus:border-[#1f2db4] text-slate-900"
+              className="mt-1 w-full border-b border-slate-300 py-2 outline-none focus:border-[#cc092f] text-slate-900"
             />
           </label>
           <label className="block">
@@ -80,12 +80,12 @@ function Login() {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               placeholder="••••••"
-              className="mt-1 w-full border-b border-slate-300 py-2 outline-none focus:border-[#1f2db4] text-slate-900"
+              className="mt-1 w-full border-b border-slate-300 py-2 outline-none focus:border-[#cc092f] text-slate-900"
             />
           </label>
 
           <div className="flex items-center gap-3 pt-2">
-            <label className="cursor-pointer flex items-center gap-2 text-sm text-[#1f2db4]">
+            <label className="cursor-pointer flex items-center gap-2 text-sm text-[#cc092f]">
               <div className="w-12 h-12 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200">
                 {photo ? (
                   <img src={photo} alt="foto" className="w-full h-full object-cover" />
@@ -104,7 +104,7 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full bg-[#1f2db4] text-white font-semibold py-3 rounded-md mt-2"
+            className="w-full bg-[#cc092f] text-white font-semibold py-3 rounded-md mt-2"
           >
             Acessar conta
           </button>

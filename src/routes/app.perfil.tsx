@@ -44,7 +44,7 @@ function Perfil() {
             <div className="w-14 h-14 rounded-full bg-white/15 overflow-hidden flex items-center justify-center">
               {photo ? <img src={photo} className="w-full h-full object-cover" /> : <User size={28} />}
             </div>
-            <span className="absolute -bottom-1 -right-1 bg-white text-[#1f2db4] rounded-full p-1">
+            <span className="absolute -bottom-1 -right-1 bg-white text-[#cc092f] rounded-full p-1">
               <Camera size={12} />
             </span>
             <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
@@ -68,7 +68,7 @@ function Perfil() {
         <div className="rounded-xl border border-slate-200 divide-y">
           {items.map((i) => (
             <button key={i} className="w-full flex items-center justify-between px-4 py-3 text-slate-800">
-              {i} <ChevronRight size={16} className="text-[#1f2db4]" />
+              {i} <ChevronRight size={16} className="text-[#cc092f]" />
             </button>
           ))}
           <button
