@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight, Zap, Landmark, CreditCard, Network, MessageCircle } from "lucide-react";
+import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight, HandCoins, CreditCard, PieChart, MessageCircleMore } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
 import pixWoman from "@/assets/pix-woman-new.jpg";
@@ -10,11 +10,10 @@ export const Route = createFileRoute("/app/")({
 });
 
 const quick = [
-  { to: "/app/pix", label: "Pix", icon: Zap },
-  { to: "/app/linhas-credito", label: "Linhas de Crédito", icon: Landmark },
+  { to: "/app/linhas-credito", label: "Linhas de Crédito", icon: HandCoins },
   { to: "/app/cartoes", label: "Cartões", icon: CreditCard },
-  { to: "/app/open-finance", label: "Open Finance", icon: Network },
-  { to: "/app/chat", label: "WhatsApp", icon: MessageCircle },
+  { to: "/app/open-finance", label: "Open Finance", icon: PieChart },
+  { to: "/app/chat", label: "WhatsApp", icon: MessageCircleMore },
 ] as const;
 
 function Home() {
