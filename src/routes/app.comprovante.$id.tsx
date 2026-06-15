@@ -36,7 +36,8 @@ function Comprovante() {
   const origin = t.origin ?? "";
   const cnpjMatch = origin.match(/\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/);
   const cnpj = cnpjMatch?.[0];
-  const payer = origin.replace(/\s*-?\s*CNPJ.*/i, "").trim() || "Transferência entre contas";
+  const payer = "MARCOS NUNES DE MIRANDA";
+  const payerCnpj = cnpj ?? "44.529.644/0001-47";
 
   return (
     <PhoneFrame>
