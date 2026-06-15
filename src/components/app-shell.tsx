@@ -75,7 +75,7 @@ export function BottomNav() {
           <Link
             key={i.to}
             to={i.to}
-            className={`flex flex-col items-center text-[11px] ${active ? "text-[#cc092f] font-semibold" : "text-slate-600"}`}
+            className={`flex flex-col items-center text-[11px] ${active ? "text-[#1a2a8a] font-semibold" : "text-slate-600"}`}
           >
             <Icon size={20} />
             <span className="mt-0.5">{i.label}</span>
