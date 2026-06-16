@@ -1,5 +1,19 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Home, MessageCircle, DollarSign, User, ArrowLeft, HelpCircle, Bell, LogOut, MoreVertical, Phone, Mail, Settings, Shield } from "lucide-react";
+import {
+  Home,
+  MessageCircle,
+  DollarSign,
+  User,
+  ArrowLeft,
+  HelpCircle,
+  Bell,
+  LogOut,
+  MoreVertical,
+  Phone,
+  Mail,
+  Settings,
+  Shield,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { transactions, useSession } from "@/lib/bank-store";
 import {
@@ -22,7 +36,7 @@ import { useState } from "react";
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-200 flex items-start justify-center md:p-6">
-      <div className="w-full md:max-w-[420px] min-h-screen md:min-h-[820px] bg-white md:rounded-[36px] md:shadow-2xl overflow-hidden flex flex-col relative">
+      <div className="w-full md:max-w-[420px] min-h-screen md:min-h-[820px] bg-white md:rounded-[36px] md:shadow-2xl overflow-hidden flex flex-col relative select-none">
         {children}
       </div>
     </div>
@@ -64,7 +78,11 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
         >
           <HelpCircle size={20} />
         </button>
-        <button onClick={() => navigate({ to: "/app/notificacoes" })} className="relative" aria-label="Notificações">
+        <button
+          onClick={() => navigate({ to: "/app/notificacoes" })}
+          className="relative"
+          aria-label="Notificações"
+        >
           <Bell size={20} />
           <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-red-500 rounded-full text-[9px] font-bold flex items-center justify-center">
             {transactions.length}
@@ -88,12 +106,22 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
             <DropdownMenuItem onClick={() => setHelpOpen(true)}>
               <HelpCircle className="mr-2 h-4 w-4" /> Ajuda e suporte
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => window.open("https://www.bradesco.com.br/html/classic/seguranca/index.shtm", "_blank")}>
+            <DropdownMenuItem
+              onClick={() =>
+                window.open(
+                  "https://www.bradesco.com.br/html/classic/seguranca/index.shtm",
+                  "_blank",
+                )
+              }
+            >
               <Shield className="mr-2 h-4 w-4" /> Segurança
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => { logout(); navigate({ to: "/" }); }}
+              onClick={() => {
+                logout();
+                navigate({ to: "/" });
+              }}
               className="text-red-600 focus:text-red-600"
             >
               <LogOut className="mr-2 h-4 w-4" /> Sair
@@ -106,26 +134,33 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>Central de Ajuda</DialogTitle>
-            <DialogDescription>
-              Estamos disponíveis 24h para te ajudar.
-            </DialogDescription>
+            <DialogDescription>Estamos disponíveis 24h para te ajudar.</DialogDescription>
           </DialogHeader>
           <div className="space-y-3 text-sm text-slate-700">
-            <a href="tel:40044040" className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50">
+            <a
+              href="tel:40044040"
+              className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50"
+            >
               <Phone size={18} className="text-[#1a2a8a]" />
               <div>
                 <div className="font-semibold">Capitais e regiões metropolitanas</div>
                 <div className="text-slate-600">4004 4040</div>
               </div>
             </a>
-            <a href="tel:08007040040" className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50">
+            <a
+              href="tel:08007040040"
+              className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50"
+            >
               <Phone size={18} className="text-[#1a2a8a]" />
               <div>
                 <div className="font-semibold">Demais localidades</div>
                 <div className="text-slate-600">0800 704 0040</div>
               </div>
             </a>
-            <a href="mailto:atendimento@bradesco.com.br" className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50">
+            <a
+              href="mailto:atendimento@bradesco.com.br"
+              className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50"
+            >
               <Mail size={18} className="text-[#1a2a8a]" />
               <div>
                 <div className="font-semibold">E-mail</div>
