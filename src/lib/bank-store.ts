@@ -68,6 +68,10 @@ function readSession() {
   return activeSession;
 }
 
+export function hasActiveSession() {
+  return activeSession;
+}
+
 export function useSession() {
   const [logged, setLogged] = useState<boolean>(false);
   useEffect(() => {
