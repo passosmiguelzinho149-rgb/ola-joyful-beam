@@ -1,6 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, EyeOff, ArrowUp, ArrowDown, ChevronRight, HandCoins, CreditCard, PieChart, MessageCircleMore } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  ArrowUp,
+  ArrowDown,
+  ChevronRight,
+  HandCoins,
+  CreditCard,
+  PieChart,
+  MessageCircleMore,
+} from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
 import pixWoman from "@/assets/pix-woman-new.jpg";
@@ -33,8 +43,12 @@ function Home() {
 
           <div className="mt-4 rounded-xl bg-white/10 backdrop-blur-sm p-4">
             <div className="flex justify-between text-sm">
-              <span>Agência: <b>{bankInfo.agency}</b></span>
-              <span>Conta: <b>{bankInfo.account}</b></span>
+              <span>
+                Agência: <b>{bankInfo.agency}</b>
+              </span>
+              <span>
+                Conta: <b>{bankInfo.account}</b>
+              </span>
             </div>
             <div className="mt-3 text-sm">Saldo disponível</div>
             <div className="flex items-center justify-between mt-1">
@@ -44,7 +58,9 @@ function Home() {
                   {show ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               </div>
-              <Link to="/app/extrato" className="underline text-sm">Ver detalhes</Link>
+              <Link to="/app/extrato" className="underline text-sm">
+                Ver detalhes
+              </Link>
             </div>
           </div>
         </div>
@@ -72,7 +88,10 @@ function Home() {
           </div>
         </div>
 
-        <Link to="/app/extrato" className="flex items-center gap-1 text-[#1a2a8a] underline text-sm">
+        <Link
+          to="/app/extrato"
+          className="flex items-center gap-1 text-[#1a2a8a] underline text-sm"
+        >
           Consultar extrato <ChevronRight size={14} />
         </Link>
 
