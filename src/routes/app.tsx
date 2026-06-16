@@ -11,7 +11,7 @@ function AppLayout() {
   const navigate = useNavigate();
   useEffect(() => {
     const t = setTimeout(() => {
-      if (localStorage.getItem("banco_demo_session") !== "1") {
+      if (sessionStorage.getItem("banco_demo_session") !== "1") {
         navigate({ to: "/" });
       }
     }, 50);
