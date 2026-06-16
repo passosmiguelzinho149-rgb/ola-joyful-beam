@@ -203,19 +203,36 @@ function Pix() {
             </div>
           ) : (
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-slate-500">Chave</span><span className="font-medium">{pixKey}</span></div>
-              <div className="flex justify-between"><span className="text-slate-500">Valor</span><span className="font-bold text-[#cc092f]">{formatBRL(parseFloat(amount.replace(",", ".")) || 0)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-500">Data</span><span>Hoje</span></div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Chave</span>
+                <span className="font-medium">{pixKey}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Valor</span>
+                <span className="font-bold text-[#cc092f]">
+                  {formatBRL(parseFloat(amount.replace(",", ".")) || 0)}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Data</span>
+                <span>Hoje</span>
+              </div>
             </div>
           )}
 
           <DialogFooter>
             {step === "form" ? (
-              <Button onClick={proceed} className="w-full bg-[#cc092f] hover:bg-[#a30725]">Continuar</Button>
+              <Button onClick={proceed} className="w-full bg-[#cc092f] hover:bg-[#a30725]">
+                Continuar
+              </Button>
             ) : (
               <div className="flex gap-2 w-full">
-                <Button variant="outline" className="flex-1" onClick={() => setStep("form")}>Voltar</Button>
-                <Button className="flex-1 bg-[#cc092f] hover:bg-[#a30725]" onClick={confirmSend}>Confirmar</Button>
+                <Button variant="outline" className="flex-1" onClick={() => setStep("form")}>
+                  Voltar
+                </Button>
+                <Button className="flex-1 bg-[#cc092f] hover:bg-[#a30725]" onClick={confirmSend}>
+                  Confirmar
+                </Button>
               </div>
             )}
           </DialogFooter>
