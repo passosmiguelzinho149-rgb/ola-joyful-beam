@@ -62,13 +62,10 @@ export function formatBRL(n: number) {
 
 const SESSION_KEY = "banco_demo_session";
 const PHOTO_KEY = "banco_demo_photo";
+let activeSession = false;
 
 function readSession() {
-  try {
-    return sessionStorage.getItem(SESSION_KEY) === "1";
-  } catch {
-    return false;
-  }
+  return activeSession;
 }
 
 export function useSession() {
@@ -79,13 +76,11 @@ export function useSession() {
   return {
     logged,
     login: () => {
-      sessionStorage.setItem(SESSION_KEY, "1");
-      localStorage.removeItem(SESSION_KEY);
+      activeSession = true;
       setLogged(true);
     },
     logout: () => {
-      localStorage.removeItem(SESSION_KEY);
-      sessionStorage.removeItem(SESSION_KEY);
+      activeSession = false;
       setLogged(false);
     },
   };
