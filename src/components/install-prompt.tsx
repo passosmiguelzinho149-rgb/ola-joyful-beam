@@ -116,8 +116,8 @@ export function InstallPrompt() {
               <p className="font-medium text-slate-800">Adicione à Tela de Início</p>
               <ol className="mt-2 space-y-1 list-decimal pl-5 text-slate-700">
                 <li className="flex items-center gap-1">
-                  Toque em <Share size={14} className="inline text-[#1a2a8a]" /> compartilhar
-                  no Safari
+                  Toque em <Share size={14} className="inline text-[#1a2a8a]" /> compartilhar no
+                  Safari
                 </li>
                 <li className="flex items-center gap-1">
                   Escolha <b>Adicionar à Tela de Início</b> <Plus size={14} className="inline" />
