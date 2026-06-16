@@ -12,15 +12,15 @@ export const Route = createFileRoute("/app/comprovante/$id")({
       <div className="bg-white flex-1 px-4 py-6 text-slate-700">
         Comprovante não encontrado.
         <div className="mt-4">
-          <Link to="/app/extrato" className="text-[#cc092f] underline">Voltar ao extrato</Link>
+          <Link to="/app/extrato" className="text-[#cc092f] underline">
+            Voltar ao extrato
+          </Link>
         </div>
       </div>
       <BottomNav />
     </PhoneFrame>
   ),
-  errorComponent: ({ error }) => (
-    <div className="p-6 text-red-600">{error.message}</div>
-  ),
+  errorComponent: ({ error }) => <div className="p-6 text-red-600">{error.message}</div>,
   loader: ({ params }) => {
     const t = transactions.find((x) => x.id === params.id);
     if (!t) throw notFound();
@@ -34,8 +34,9 @@ function Comprovante() {
   const ispb = "60746948"; // ISPB Bradesco
   const [dd, mm, yyyy] = t.date.split("/");
   const stamp = `${yyyy}${mm}${dd}1032`;
-  const rand = Array.from({ length: 11 }, () =>
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random() * 36)]
+  const rand = Array.from(
+    { length: 11 },
+    () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random() * 36)],
   ).join("");
   const auth = `E${ispb}${stamp}${rand}`;
 
@@ -56,7 +57,9 @@ function Comprovante() {
           <h1 className="text-lg font-bold text-slate-900 mt-2">
             {t.type === "in" ? "Pix recebido" : "Pix enviado"}
           </h1>
-          <div className={`text-2xl font-bold mt-1 ${t.type === "in" ? "text-green-700" : "text-red-700"}`}>
+          <div
+            className={`text-2xl font-bold mt-1 ${t.type === "in" ? "text-green-700" : "text-red-700"}`}
+          >
             {t.type === "in" ? "+" : "-"} {formatBRL(t.amount)}
           </div>
           <div className="text-xs text-slate-500 mt-1">{t.date} • 10:32</div>
