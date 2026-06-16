@@ -1,6 +1,18 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Copy, Star, Building2, QrCode, DollarSign, FileText, SlidersHorizontal, KeyRound, Hand, Bell, ArrowRight } from "lucide-react";
+import {
+  Copy,
+  Star,
+  Building2,
+  QrCode,
+  DollarSign,
+  FileText,
+  SlidersHorizontal,
+  KeyRound,
+  Hand,
+  Bell,
+  ArrowRight,
+} from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import {
   Dialog,
@@ -55,13 +67,25 @@ function Pix() {
 
   const sub = [
     { label: "Pix Copia e Cola", icon: Copy, onClick: () => openSend() },
-    { label: "Ler um QR Code", icon: QrCode, onClick: () => toast.info("Câmera indisponível na demo") },
-    { label: "Receber por QR Code", icon: DollarSign, onClick: () => toast.info("QR de recebimento gerado") },
+    {
+      label: "Ler um QR Code",
+      icon: QrCode,
+      onClick: () => toast.info("Câmera indisponível na demo"),
+    },
+    {
+      label: "Receber por QR Code",
+      icon: DollarSign,
+      onClick: () => toast.info("QR de recebimento gerado"),
+    },
   ];
 
   const more = [
     { label: "Extrato Pix", icon: FileText, onClick: () => navigate({ to: "/app/extrato" }) },
-    { label: "Limites Pix", icon: SlidersHorizontal, onClick: () => toast.info("Limite: R$ 100.000.000,00") },
+    {
+      label: "Limites Pix",
+      icon: SlidersHorizontal,
+      onClick: () => toast.info("Limite: R$ 100.000.000,00"),
+    },
     { label: "Chaves Pix", icon: KeyRound, onClick: () => toast.info("CNPJ 63.031.988/0001-76") },
     { label: "Gerenciar contatos", icon: Star, onClick: () => toast.info("Em breve") },
     { label: "Contestações", icon: Hand, onClick: () => toast.info("Nenhuma contestação") },
@@ -91,11 +115,17 @@ function Pix() {
         </button>
 
         <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => openSend()} className="rounded-xl border border-slate-200 p-3 flex items-start gap-2 hover:bg-slate-50 transition text-left">
+          <button
+            onClick={() => openSend()}
+            className="rounded-xl border border-slate-200 p-3 flex items-start gap-2 hover:bg-slate-50 transition text-left"
+          >
             <Star className="text-[#cc092f]" size={20} />
             <span className="text-sm">Escolher um contato</span>
           </button>
-          <button onClick={() => openSend()} className="rounded-xl border border-slate-200 p-3 flex items-start gap-2 hover:bg-slate-50 transition text-left">
+          <button
+            onClick={() => openSend()}
+            className="rounded-xl border border-slate-200 p-3 flex items-start gap-2 hover:bg-slate-50 transition text-left"
+          >
             <Building2 className="text-[#cc092f]" size={20} />
             <span className="text-sm">Digitar agência e conta</span>
           </button>
@@ -173,19 +203,36 @@ function Pix() {
             </div>
           ) : (
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-slate-500">Chave</span><span className="font-medium">{pixKey}</span></div>
-              <div className="flex justify-between"><span className="text-slate-500">Valor</span><span className="font-bold text-[#cc092f]">{formatBRL(parseFloat(amount.replace(",", ".")) || 0)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-500">Data</span><span>Hoje</span></div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Chave</span>
+                <span className="font-medium">{pixKey}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Valor</span>
+                <span className="font-bold text-[#cc092f]">
+                  {formatBRL(parseFloat(amount.replace(",", ".")) || 0)}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Data</span>
+                <span>Hoje</span>
+              </div>
             </div>
           )}
 
           <DialogFooter>
             {step === "form" ? (
-              <Button onClick={proceed} className="w-full bg-[#cc092f] hover:bg-[#a30725]">Continuar</Button>
+              <Button onClick={proceed} className="w-full bg-[#cc092f] hover:bg-[#a30725]">
+                Continuar
+              </Button>
             ) : (
               <div className="flex gap-2 w-full">
-                <Button variant="outline" className="flex-1" onClick={() => setStep("form")}>Voltar</Button>
-                <Button className="flex-1 bg-[#cc092f] hover:bg-[#a30725]" onClick={confirmSend}>Confirmar</Button>
+                <Button variant="outline" className="flex-1" onClick={() => setStep("form")}>
+                  Voltar
+                </Button>
+                <Button className="flex-1 bg-[#cc092f] hover:bg-[#a30725]" onClick={confirmSend}>
+                  Confirmar
+                </Button>
               </div>
             )}
           </DialogFooter>

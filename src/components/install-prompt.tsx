@@ -99,7 +99,9 @@ export function InstallPrompt() {
             <>
               <p>Instale o app na tela inicial para uma experiência mais rápida e fluida.</p>
               <div className="mt-3 flex gap-2 justify-end">
-                <button onClick={dismiss} className="px-3 py-2 text-slate-600 text-sm">Agora não</button>
+                <button onClick={dismiss} className="px-3 py-2 text-slate-600 text-sm">
+                  Agora não
+                </button>
                 <button
                   onClick={install}
                   className="inline-flex items-center gap-2 bg-[#1a2a8a] hover:bg-[#142073] text-white font-semibold rounded-md px-4 py-2"
@@ -114,15 +116,20 @@ export function InstallPrompt() {
               <p className="font-medium text-slate-800">Adicione à Tela de Início</p>
               <ol className="mt-2 space-y-1 list-decimal pl-5 text-slate-700">
                 <li className="flex items-center gap-1">
-                  Toque em <Share size={14} className="inline text-[#1a2a8a]" /> compartilhar no Safari
+                  Toque em <Share size={14} className="inline text-[#1a2a8a]" /> compartilhar no
+                  Safari
                 </li>
                 <li className="flex items-center gap-1">
                   Escolha <b>Adicionar à Tela de Início</b> <Plus size={14} className="inline" />
                 </li>
-                <li>Confirme em <b>Adicionar</b>.</li>
+                <li>
+                  Confirme em <b>Adicionar</b>.
+                </li>
               </ol>
               <div className="mt-3 flex justify-end">
-                <button onClick={dismiss} className="text-sm text-slate-600 px-3 py-1">Entendi</button>
+                <button onClick={dismiss} className="text-sm text-slate-600 px-3 py-1">
+                  Entendi
+                </button>
               </div>
             </>
           )}

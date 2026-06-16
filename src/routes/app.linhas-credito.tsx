@@ -29,8 +29,8 @@ function Linhas() {
             <div>
               <div className="font-semibold text-slate-800">Procura por uma linha de crédito?</div>
               <p className="text-sm text-slate-600 mt-1">
-                Confira com nossa Agência Digital se há opções para sua empresa — das 8h às 20h,
-                em dias úteis, horário de Brasília.
+                Confira com nossa Agência Digital se há opções para sua empresa — das 8h às 20h, em
+                dias úteis, horário de Brasília.
               </p>
               <button className="text-[#cc092f] font-semibold text-sm mt-2">
                 Falar com Agência Digital
@@ -49,7 +49,11 @@ function Linhas() {
             >
               <div className="flex justify-between items-center">
                 <span className="text-slate-800">{l.title}</span>
-                {open === l.title ? <ChevronUp size={18} className="text-[#cc092f]" /> : <ChevronDown size={18} className="text-[#cc092f]" />}
+                {open === l.title ? (
+                  <ChevronUp size={18} className="text-[#cc092f]" />
+                ) : (
+                  <ChevronDown size={18} className="text-[#cc092f]" />
+                )}
               </div>
               {open === l.title && <p className="text-sm text-slate-600 mt-2">{l.text}</p>}
             </button>

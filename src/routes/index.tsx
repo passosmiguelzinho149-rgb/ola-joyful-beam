@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Lock, Camera, User, RotateCw, Menu, HelpCircle, Fingerprint } from "lucide-react";
+import { useState } from "react";
+import { Lock, User, RotateCw, Menu, HelpCircle, Fingerprint } from "lucide-react";
 import { PhoneFrame, DemoBanner } from "@/components/app-shell";
 import { useSession, usePhoto } from "@/lib/bank-store";
 
@@ -19,15 +19,11 @@ const CPF_MIDDLE = "151";
 
 function Login() {
   const navigate = useNavigate();
-  const { logged, login } = useSession();
+  const { login } = useSession();
   const { photo, setPhoto } = usePhoto();
   const [showPwd, setShowPwd] = useState(false);
   const [senha, setSenha] = useState("");
   const [err, setErr] = useState("");
-
-  useEffect(() => {
-    if (logged) navigate({ to: "/app" });
-  }, [logged, navigate]);
 
   function onAccess() {
     if (!showPwd) {
@@ -57,15 +53,17 @@ function Login() {
         await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
       if (!available) throw new Error("Biometria não configurada neste dispositivo.");
 
-      await navigator.credentials.get({
-        publicKey: {
-          challenge: crypto.getRandomValues(new Uint8Array(32)),
-          timeout: 30000,
-          userVerification: "required",
-          rpId: window.location.hostname,
-          allowCredentials: [],
-        },
-      }).catch(() => null);
+      await navigator.credentials
+        .get({
+          publicKey: {
+            challenge: crypto.getRandomValues(new Uint8Array(32)),
+            timeout: 30000,
+            userVerification: "required",
+            rpId: window.location.hostname,
+            allowCredentials: [],
+          },
+        })
+        .catch(() => null);
 
       login();
       navigate({ to: "/app" });
@@ -96,7 +94,9 @@ function Login() {
         </div>
 
         <h1 className="mt-10 text-2xl font-bold leading-tight">
-          Uma nova experiência<br />para o seu negócio
+          Uma nova experiência
+          <br />
+          para o seu negócio
         </h1>
       </div>
 
@@ -114,8 +114,7 @@ function Login() {
               <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
             </label>
             <div className="font-medium tracking-wide text-[15px]">
-              CPF <span className="mx-1">•••</span> {CPF_MIDDLE}{" "}
-              <span className="mx-1">•••</span>
+              CPF <span className="mx-1">•••</span> {CPF_MIDDLE} <span className="mx-1">•••</span>
             </div>
           </div>
           <button className="flex items-center gap-1 text-[#1a2a8a] text-sm font-medium">

@@ -62,20 +62,29 @@ export function formatBRL(n: number) {
 
 const SESSION_KEY = "banco_demo_session";
 const PHOTO_KEY = "banco_demo_photo";
+let activeSession = false;
+
+function readSession() {
+  return activeSession;
+}
+
+export function hasActiveSession() {
+  return activeSession;
+}
 
 export function useSession() {
   const [logged, setLogged] = useState<boolean>(false);
   useEffect(() => {
-    setLogged(localStorage.getItem(SESSION_KEY) === "1");
+    setLogged(readSession());
   }, []);
   return {
     logged,
     login: () => {
-      localStorage.setItem(SESSION_KEY, "1");
+      activeSession = true;
       setLogged(true);
     },
     logout: () => {
-      localStorage.removeItem(SESSION_KEY);
+      activeSession = false;
       setLogged(false);
     },
   };
