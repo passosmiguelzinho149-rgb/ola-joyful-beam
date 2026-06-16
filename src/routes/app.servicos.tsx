@@ -1,8 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Zap, FileText, Receipt, HandCoins, CreditCard, Barcode, PieChart,
-  MessageCircle, Calendar, SlidersHorizontal, FileCheck, Calculator,
-  FileBarChart, Car, ScanLine, RefreshCw, TrendingUp, FileSignature,
+  Zap,
+  FileText,
+  Receipt,
+  HandCoins,
+  CreditCard,
+  Barcode,
+  PieChart,
+  MessageCircle,
+  Calendar,
+  SlidersHorizontal,
+  FileCheck,
+  Calculator,
+  FileBarChart,
+  Car,
+  ScanLine,
+  RefreshCw,
+  TrendingUp,
+  FileSignature,
 } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 
