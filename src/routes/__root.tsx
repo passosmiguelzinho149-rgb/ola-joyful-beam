@@ -89,13 +89,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "apple-mobile-web-app-title", content: "Bradesco" },
       { property: "og:title", content: "Bradesco Empresas e Negócios" },
-      { property: "og:description", content: "App bancário de demonstração — empresas e negócios." },
+      {
+        property: "og:description",
+        content: "App bancário de demonstração — empresas e negócios.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Bradesco Empresas e Negócios" },
-      { name: "twitter:description", content: "App bancário de demonstração — empresas e negócios." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9833b5fd-2de8-4c3e-b430-fdf0f4045906/id-preview-f309b1d5--2c6d83f0-8f0c-413f-819d-1aa1de81cc7a.lovable.app-1781560147550.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9833b5fd-2de8-4c3e-b430-fdf0f4045906/id-preview-f309b1d5--2c6d83f0-8f0c-413f-819d-1aa1de81cc7a.lovable.app-1781560147550.png" },
+      {
+        name: "twitter:description",
+        content: "App bancário de demonstração — empresas e negócios.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9833b5fd-2de8-4c3e-b430-fdf0f4045906/id-preview-f309b1d5--2c6d83f0-8f0c-413f-819d-1aa1de81cc7a.lovable.app-1781560147550.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9833b5fd-2de8-4c3e-b430-fdf0f4045906/id-preview-f309b1d5--2c6d83f0-8f0c-413f-819d-1aa1de81cc7a.lovable.app-1781560147550.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
