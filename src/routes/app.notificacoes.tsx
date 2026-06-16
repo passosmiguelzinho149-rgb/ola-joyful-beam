@@ -30,12 +30,8 @@ function Notificacoes() {
                   </span>
                   <span className="text-[11px] text-slate-500">{t.date}</span>
                 </div>
-                <div className="text-xs text-slate-600 mt-0.5">
-                  {t.origin ?? "Pix recebido"}
-                </div>
-                <div className="text-green-700 font-bold text-sm mt-1">
-                  + {formatBRL(t.amount)}
-                </div>
+                <div className="text-xs text-slate-600 mt-0.5">{t.origin ?? "Pix recebido"}</div>
+                <div className="text-green-700 font-bold text-sm mt-1">+ {formatBRL(t.amount)}</div>
               </div>
             </div>
           ))}
