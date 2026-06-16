@@ -36,7 +36,12 @@ import { useState } from "react";
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-200 flex items-start justify-center md:p-6">
-      <div className="w-full md:max-w-[420px] min-h-screen md:min-h-[820px] bg-white md:rounded-[36px] md:shadow-2xl overflow-hidden flex flex-col relative select-none">
+      <div
+        onCopy={(event) => event.preventDefault()}
+        onCut={(event) => event.preventDefault()}
+        onContextMenu={(event) => event.preventDefault()}
+        className="w-full md:max-w-[420px] min-h-screen md:min-h-[820px] bg-white md:rounded-[36px] md:shadow-2xl overflow-hidden flex flex-col relative select-none"
+      >
         {children}
       </div>
     </div>
