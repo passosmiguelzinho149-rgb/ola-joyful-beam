@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, EyeOff, Search, SlidersHorizontal } from "lucide-react";
-import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
+import { PhoneFrame, BottomNav, DemoBanner } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
 
 export const Route = createFileRoute("/app/extrato")({
@@ -60,7 +60,9 @@ function Extrato() {
           <button className="flex shrink-0 items-center gap-2 rounded-xl bg-bank-chip px-4 py-2">
             Filtrar <SlidersHorizontal size={24} />
           </button>
-          <button className="shrink-0 rounded-xl bg-bank-blue px-5 py-2 text-bank-blue-foreground">7 dias</button>
+          <button className="shrink-0 rounded-xl bg-bank-blue px-5 py-2 text-bank-blue-foreground">
+            7 dias
+          </button>
           <button className="shrink-0 rounded-xl bg-bank-chip px-5 py-2">15 dias</button>
           <button className="shrink-0 rounded-xl bg-bank-chip px-5 py-2">30 dias</button>
         </div>
@@ -99,14 +101,18 @@ function Extrato() {
                     <div className="mt-1 text-lg uppercase leading-snug text-muted-foreground">
                       REM: CLEITON OLIVEIRA DOS
                     </div>
-                    <div className="text-lg leading-snug text-muted-foreground">{t.date.slice(0, 5)}</div>
+                    <div className="text-lg leading-snug text-muted-foreground">
+                      {t.date.slice(0, 5)}
+                    </div>
                     <div className="text-lg leading-snug text-muted-foreground">Documento</div>
                     <div className="text-lg leading-snug text-muted-foreground">2254545</div>
                   </div>
                 </div>
               </div>
 
-              <div className={`pt-16 text-right text-xl font-semibold ${t.type === "in" ? "text-emerald-800" : "text-destructive"}`}>
+              <div
+                className={`pt-16 text-right text-xl font-semibold ${t.type === "in" ? "text-emerald-800" : "text-destructive"}`}
+              >
                 {formatBRL(t.amount)}
               </div>
             </Link>
