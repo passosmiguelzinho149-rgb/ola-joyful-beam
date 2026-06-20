@@ -59,6 +59,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-bank-blue: var(--bank-blue);
+  --color-bank-blue-foreground: var(--bank-blue-foreground);
+  --color-bank-blue-soft: var(--bank-blue-soft);
+  --color-bank-chip: var(--bank-chip);
+  --color-bank-sheet: var(--bank-sheet);
 }
 
 :root {
@@ -95,6 +100,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --bank-blue: oklch(0.25 0.2 268);
+  --bank-blue-foreground: oklch(0.99 0.01 260);
+  --bank-blue-soft: oklch(0.34 0.19 270 / 72%);
+  --bank-chip: oklch(0.91 0.03 265);
+  --bank-sheet: oklch(0.985 0.004 260);
 }
 
 .dark {
@@ -130,6 +140,11 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --bank-blue: oklch(0.25 0.2 268);
+  --bank-blue-foreground: oklch(0.99 0.01 260);
+  --bank-blue-soft: oklch(0.34 0.19 270 / 72%);
+  --bank-chip: oklch(0.91 0.03 265);
+  --bank-sheet: oklch(0.985 0.004 260);
 }
 
 @layer base {
