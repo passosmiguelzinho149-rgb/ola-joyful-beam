@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { formatBRL } from "@/lib/bank-store";
+import { formatBRL, registrarSaida } from "@/lib/bank-store";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/pix")({
@@ -60,9 +60,19 @@ function Pix() {
 
   const confirmSend = () => {
     const v = parseFloat(amount.replace(",", "."));
+    if (v > 132_000_000) {
+      toast.error("Saldo insuficiente para esta demonstração");
+      return;
+    }
+    const tx = registrarSaida({
+      descricao: "Pix enviado",
+      valor: v,
+      destinatario: pixKey,
+      chave: pixKey,
+    });
     setSendOpen(false);
-    toast.success(`Pix de ${formatBRL(v)} enviado para ${pixKey}`);
-    setTimeout(() => navigate({ to: "/app" }), 600);
+    toast.success("Pix demonstrativo realizado com sucesso");
+    setTimeout(() => navigate({ to: "/app/comprovante/$id", params: { id: tx.id } }), 500);
   };
 
   const sub = [
@@ -96,7 +106,7 @@ function Pix() {
     <PhoneFrame>
       <DemoBanner />
       <BlueHeader title="Pix" showBack />
-      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-4 pb-6">
+      <div className="bg-[#cc092f] text-white px-4 pb-6">
         <h1 className="text-xl font-bold">Pix para sua empresa</h1>
         <p className="text-sm mt-1">Como você quer transferir?</p>
       </div>
