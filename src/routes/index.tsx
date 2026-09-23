@@ -1,161 +1,325 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Lock, User, RotateCw, Menu, HelpCircle, Fingerprint } from "lucide-react";
-import { PhoneFrame, DemoBanner } from "@/components/app-shell";
-import { useSession, usePhoto } from "@/lib/bank-store";
+import { Delete, Fingerprint, KeyRound, ShieldCheck, UserPlus } from "lucide-react";
+import { PhoneFrame } from "@/components/app-shell";
+import { bankInfo, getPin, setPin, useSession } from "@/lib/bank-store";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bradesco — Login" },
-      { name: "description", content: "App bancário fictício de demonstração." },
+      { title: "NOVABANK — Acesso" },
+      { name: "description", content: "Protótipo bancário NOVABANK com dados 100% fictícios." },
     ],
   }),
   component: Login,
 });
 
-// CPF: 061.151.571-70 — exibimos os 3 dígitos do meio
-const CPF_MIDDLE = "151";
-
 function Login() {
   const navigate = useNavigate();
   const { login } = useSession();
-  const { photo, setPhoto } = usePhoto();
-  const [showPwd, setShowPwd] = useState(false);
-  const [senha, setSenha] = useState("");
+  const [pin, setPinValue] = useState("");
   const [err, setErr] = useState("");
+  const [bioOpen, setBioOpen] = useState(false);
+  const [recOpen, setRecOpen] = useState(false);
+  const [recStep, setRecStep] = useState<1 | 2 | 3>(1);
+  const [recDoc, setRecDoc] = useState("");
+  const [recPin, setRecPin] = useState("");
+  const [cadOpen, setCadOpen] = useState(false);
+  const [cad, setCad] = useState({ nome: "", cpf: "", email: "", pin: "" });
 
-  function onAccess() {
-    if (!showPwd) {
-      setShowPwd(true);
-      return;
-    }
-    if (senha.length < 4) return setErr("Senha deve ter ao menos 4 dígitos.");
+  function concluir(mensagem: string) {
     login();
+    toast.success(mensagem);
     navigate({ to: "/app" });
   }
 
-  function onPhoto(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = () => setPhoto(String(r.result));
-    r.readAsDataURL(f);
-  }
-
-  async function onBiometria() {
+  function digitar(d: string) {
     setErr("");
-    try {
-      if (typeof window === "undefined" || !window.PublicKeyCredential) {
-        throw new Error("Dispositivo sem suporte a biometria.");
-      }
-      const available =
-        await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-      if (!available) throw new Error("Biometria não configurada neste dispositivo.");
-
-      await navigator.credentials
-        .get({
-          publicKey: {
-            challenge: crypto.getRandomValues(new Uint8Array(32)),
-            timeout: 30000,
-            userVerification: "required",
-            rpId: window.location.hostname,
-            allowCredentials: [],
-          },
-        })
-        .catch(() => null);
-
-      login();
-      navigate({ to: "/app" });
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "Falha na biometria.";
-      setErr(msg);
-    }
+    setPinValue((p) => (p + d).slice(0, 4));
   }
+
+  function entrar() {
+    if (pin.length < 4) {
+      setErr("Digite os 4 dígitos do seu PIN.");
+      return;
+    }
+    if (pin !== getPin()) {
+      setPinValue("");
+      setErr("PIN incorreto. Tente novamente.");
+      return;
+    }
+    concluir("Bem-vinda de volta!");
+  }
+
+  function recuperar() {
+    if (recDoc.trim().length < 5) {
+      toast.error("Informe o CPF ou e-mail cadastrado");
+      return;
+    }
+    setRecStep(2);
+  }
+
+  function salvarNovoPin() {
+    if (recPin.length < 4) {
+      toast.error("O novo PIN precisa ter 4 dígitos");
+      return;
+    }
+    setPin(recPin);
+    setRecOpen(false);
+    setRecStep(1);
+    setRecDoc("");
+    setRecPin("");
+    toast.success("PIN redefinido neste aparelho");
+  }
+
+  function criarConta() {
+    if (!cad.nome.trim() || cad.cpf.trim().length < 8 || cad.pin.length < 4) {
+      toast.error("Preencha nome, CPF e um PIN de 4 dígitos");
+      return;
+    }
+    setPin(cad.pin);
+    setCadOpen(false);
+    setCad({ nome: "", cpf: "", email: "", pin: "" });
+    concluir("Conta demonstrativa criada");
+  }
+
+  const teclas = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   return (
     <PhoneFrame>
-      <DemoBanner />
-      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white px-6 pt-6 pb-28 relative flex-1">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-sm font-extrabold">
-              B
-            </div>
-            <div className="leading-tight">
-              <div className="text-base font-bold tracking-wide">bradesco</div>
-              <div className="text-[11px] opacity-90">empresas e negócios</div>
-            </div>
+      <div className="bg-gradient-to-b from-[#e11d48] via-[#f43f5e] to-[#fda4af] text-white px-6 pt-8 pb-24 relative">
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#e11d48] text-base font-extrabold">
+            N
           </div>
-          <div className="flex items-center gap-3">
-            <HelpCircle size={20} />
-            <Menu size={22} />
+          <div className="leading-tight">
+            <div className="text-lg font-bold tracking-wide">NOVABANK</div>
+            <div className="text-[11px] opacity-90">protótipo com dados fictícios</div>
           </div>
         </div>
-
         <h1 className="mt-10 text-2xl font-bold leading-tight">
-          Uma nova experiência
+          Seu banco digital,
           <br />
-          para o seu negócio
+          simples e rápido.
         </h1>
       </div>
 
-      <div className="-mt-20 mx-4 bg-white rounded-2xl shadow-xl p-5 z-10 relative">
-        <div className="flex items-center justify-between text-slate-800">
-          <div className="flex items-center gap-3">
-            <label className="cursor-pointer">
-              <div className="w-10 h-10 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border border-slate-200">
-                {photo ? (
-                  <img src={photo} alt="foto" className="w-full h-full object-cover" />
-                ) : (
-                  <User size={18} className="text-slate-400" />
-                )}
-              </div>
-              <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
-            </label>
-            <div className="font-medium tracking-wide text-[15px]">
-              CPF <span className="mx-1">•••</span> {CPF_MIDDLE} <span className="mx-1">•••</span>
-            </div>
+      <div className="-mt-16 mx-4 bg-white rounded-3xl shadow-xl p-5 z-10 relative space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-xs text-slate-500">Acesso demonstrativo</div>
+            <div className="font-semibold text-slate-900">{bankInfo.holder}</div>
+            <div className="text-xs text-slate-500">Ag. {bankInfo.agency} — Conta {bankInfo.account}</div>
           </div>
-          <button className="flex items-center gap-1 text-[#1a2a8a] text-sm font-medium">
-            Remover <RotateCw size={14} />
+          <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-[#e11d48]">
+            <ShieldCheck size={18} />
+          </div>
+        </div>
+
+        <div className="flex justify-center gap-3 py-1">
+          {[0, 1, 2, 3].map((i) => (
+            <span
+              key={i}
+              className={`w-3.5 h-3.5 rounded-full border ${
+                pin.length > i ? "bg-[#e11d48] border-[#e11d48]" : "bg-white border-slate-300"
+              }`}
+            />
+          ))}
+        </div>
+
+        {err && <p className="text-xs text-center text-[#e11d48]">{err}</p>}
+
+        <div className="grid grid-cols-3 gap-2">
+          {teclas.map((t) => (
+            <button
+              key={t}
+              onClick={() => digitar(t)}
+              className="rounded-2xl border border-slate-200 py-3 text-lg font-semibold text-slate-800 active:bg-rose-50"
+            >
+              {t}
+            </button>
+          ))}
+          <button
+            onClick={() => setBioOpen(true)}
+            className="rounded-2xl border border-slate-200 py-3 flex items-center justify-center text-[#e11d48]"
+            aria-label="Biometria"
+          >
+            <Fingerprint size={20} />
+          </button>
+          <button
+            onClick={() => digitar("0")}
+            className="rounded-2xl border border-slate-200 py-3 text-lg font-semibold text-slate-800 active:bg-rose-50"
+          >
+            0
+          </button>
+          <button
+            onClick={() => setPinValue((p) => p.slice(0, -1))}
+            className="rounded-2xl border border-slate-200 py-3 flex items-center justify-center text-slate-600"
+            aria-label="Apagar"
+          >
+            <Delete size={20} />
           </button>
         </div>
 
-        {showPwd && (
-          <div className="mt-4">
-            <input
-              type="password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Digite sua senha"
-              autoFocus
-              className="w-full border-b border-slate-300 py-2 outline-none focus:border-[#cc092f] text-slate-900"
-            />
-          </div>
-        )}
-
-        {err && <p className="text-xs text-red-600 mt-2">{err}</p>}
-
-        <button
-          onClick={onAccess}
-          className="w-full bg-[#1a2a8a] hover:bg-[#142073] text-white font-semibold py-3 rounded-md mt-4"
+        <Button
+          onClick={entrar}
+          className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] hover:opacity-90 py-6 text-base font-semibold"
         >
-          Acessar conta
-        </button>
+          Entrar
+        </Button>
+
+        <p className="text-[11px] text-center text-slate-400">PIN inicial da demonstração: 2468</p>
       </div>
 
       <div className="p-4 mt-auto space-y-2">
         <button
-          onClick={onBiometria}
-          className="w-full bg-white border-2 border-[#1a2a8a] text-[#1a2a8a] rounded-md py-3 flex items-center justify-center gap-2 text-sm font-semibold"
+          onClick={() => {
+            setRecStep(1);
+            setRecOpen(true);
+          }}
+          className="w-full rounded-2xl border border-slate-200 py-3 flex items-center justify-center gap-2 text-sm font-semibold text-slate-700"
         >
-          <Fingerprint size={18} /> Entrar com biometria
+          <KeyRound size={16} /> Recuperar acesso
         </button>
-        <button className="w-full border border-slate-300 text-slate-700 rounded-md py-3 flex items-center justify-center gap-2 text-sm">
-          <Lock size={16} /> Chave de segurança
+        <button
+          onClick={() => setCadOpen(true)}
+          className="w-full rounded-2xl border border-slate-200 py-3 flex items-center justify-center gap-2 text-sm font-semibold text-slate-700"
+        >
+          <UserPlus size={16} /> Criar conta demonstrativa
         </button>
       </div>
+
+      <Dialog open={bioOpen} onOpenChange={setBioOpen}>
+        <DialogContent className="max-w-sm text-center">
+          <DialogHeader>
+            <DialogTitle>Biometria simulada</DialogTitle>
+            <DialogDescription>Nenhum dado real do seu aparelho é usado.</DialogDescription>
+          </DialogHeader>
+          <button
+            onClick={() => {
+              setBioOpen(false);
+              concluir("Biometria reconhecida");
+            }}
+            className="mx-auto w-24 h-24 rounded-full bg-rose-50 flex items-center justify-center text-[#e11d48] animate-pulse"
+            aria-label="Confirmar biometria"
+          >
+            <Fingerprint size={44} />
+          </button>
+          <p className="text-xs text-slate-500">Toque no ícone para simular a leitura.</p>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={recOpen}
+        onOpenChange={(o) => {
+          setRecOpen(o);
+          if (!o) setRecStep(1);
+        }}
+      >
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Recuperar acesso</DialogTitle>
+            <DialogDescription>
+              {recStep === 1
+                ? "Informe o CPF ou e-mail cadastrado na conta demonstrativa."
+                : "Use o código demonstrativo para definir um novo PIN."}
+            </DialogDescription>
+          </DialogHeader>
+          {recStep === 1 ? (
+            <div className="space-y-3">
+              <Input
+                placeholder="CPF ou e-mail"
+                value={recDoc}
+                onChange={(e) => setRecDoc(e.target.value)}
+              />
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <div className="rounded-2xl bg-rose-50 p-3 text-sm text-slate-700">
+                Código demonstrativo: <b>4821</b>
+              </div>
+              <Input
+                inputMode="numeric"
+                maxLength={4}
+                placeholder="Novo PIN de 4 dígitos"
+                value={recPin}
+                onChange={(e) => setRecPin(e.target.value.replace(/\D/g, ""))}
+              />
+            </div>
+          )}
+          <DialogFooter>
+            {recStep === 1 ? (
+              <Button
+                onClick={recuperar}
+                className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e]"
+              >
+                Enviar código
+              </Button>
+            ) : (
+              <Button
+                onClick={salvarNovoPin}
+                className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e]"
+              >
+                Salvar novo PIN
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={cadOpen} onOpenChange={setCadOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Criar conta demonstrativa</DialogTitle>
+            <DialogDescription>
+              Dados fictícios. Nada é enviado para nenhum banco de verdade.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <Input
+              placeholder="Nome completo"
+              value={cad.nome}
+              onChange={(e) => setCad({ ...cad, nome: e.target.value })}
+            />
+            <Input
+              placeholder="CPF (fictício)"
+              value={cad.cpf}
+              onChange={(e) => setCad({ ...cad, cpf: e.target.value })}
+            />
+            <Input
+              placeholder="E-mail"
+              value={cad.email}
+              onChange={(e) => setCad({ ...cad, email: e.target.value })}
+            />
+            <Input
+              inputMode="numeric"
+              maxLength={4}
+              placeholder="PIN de 4 dígitos"
+              value={cad.pin}
+              onChange={(e) => setCad({ ...cad, pin: e.target.value.replace(/\D/g, "") })}
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              onClick={criarConta}
+              className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e]"
+            >
+              Criar e entrar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PhoneFrame>
   );
 }

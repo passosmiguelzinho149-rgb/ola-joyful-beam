@@ -3,28 +3,65 @@ import { useState } from "react";
 import {
   Eye,
   EyeOff,
-  ArrowUp,
-  ArrowDown,
   ChevronRight,
-  HandCoins,
+  Zap,
+  ArrowLeftRight,
+  Barcode,
   CreditCard,
+  HandCoins,
+  TrendingUp,
   PieChart,
-  MessageCircleMore,
+  SlidersHorizontal,
+  MessageCircle,
+  Bell,
+  Gift,
+  Lightbulb,
+  Sparkles,
 } from "lucide-react";
-import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
+import { PhoneFrame, BlueHeader, BottomNav } from "@/components/app-shell";
 import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
-import pixWoman from "@/assets/pix-woman-new.jpg";
 
 export const Route = createFileRoute("/app/")({
   component: Home,
 });
 
-const quick = [
-  { to: "/app/linhas-credito", label: "Linhas de Crédito", icon: HandCoins },
+const favoritos = [
+  { to: "/app/pix", label: "Pix", icon: Zap },
+  { to: "/app/transferencias", label: "Transferências", icon: ArrowLeftRight },
+  { to: "/app/pagamentos", label: "Pagamentos", icon: Barcode },
   { to: "/app/cartoes", label: "Cartões", icon: CreditCard },
+  { to: "/app/emprestimos", label: "Empréstimos", icon: HandCoins },
+  { to: "/app/investimentos", label: "Investimentos", icon: TrendingUp },
   { to: "/app/open-finance", label: "Open Finance", icon: PieChart },
-  { to: "/app/chat", label: "WhatsApp", icon: MessageCircleMore },
+  { to: "/app/servicos", label: "Personalizar", icon: SlidersHorizontal },
 ] as const;
+
+const ofertas = [
+  {
+    titulo: "Crédito pré-aprovado",
+    texto: "Simule até R$ 25.000,00 com taxa demonstrativa.",
+    to: "/app/emprestimos",
+    cta: "Simular",
+  },
+  {
+    titulo: "Cartão NOVA Cashback",
+    texto: "Cashback fictício de até 2% nas compras do Shop.",
+    to: "/app/cartoes",
+    cta: "Ver cartões",
+  },
+  {
+    titulo: "Invista a partir de R$ 50,00",
+    texto: "Poupança, renda fixa e fundos de demonstração.",
+    to: "/app/investimentos",
+    cta: "Investir",
+  },
+] as const;
+
+const beneficios = [
+  "Pix ilimitado e sem tarifa (demo)",
+  "Cashback acumulado de R$ 84,20",
+  "Recarga de celular com 10% de bônus fictício",
+];
 
 function Home() {
   const [show, setShow] = useState(true);
@@ -33,114 +70,140 @@ function Home() {
 
   return (
     <PhoneFrame>
-      <DemoBanner />
-      <div className="bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white">
+      <div className="bg-gradient-to-b from-[#e11d48] via-[#f43f5e] to-[#fda4af] text-white">
         <BlueHeader />
-        <div className="px-4 pt-2 pb-6">
-          <h2 className="text-lg font-bold leading-tight">Olá, {bankInfo.holder}</h2>
-          <p className="text-xs mt-1">{bankInfo.company}</p>
-          <p className="text-xs">CNPJ: {bankInfo.cnpj}</p>
+        <div className="px-4 pt-2 pb-7">
+          <p className="text-sm opacity-90">Olá,</p>
+          <h2 className="text-xl font-bold leading-tight">{bankInfo.holder}</h2>
+          <p className="text-[11px] opacity-90 mt-1">
+            Ag. {bankInfo.agency} — Conta {bankInfo.account} — NOVABANK
+          </p>
 
-          <div className="mt-4 rounded-xl bg-white/10 backdrop-blur-sm p-4">
-            <div className="flex justify-between text-sm">
-              <span>
-                Agência: <b>{bankInfo.agency}</b>
-              </span>
-              <span>
-                Conta: <b>{bankInfo.account}</b>
-              </span>
+          <div className="mt-4 rounded-3xl bg-white/15 backdrop-blur-sm p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm">Saldo disponível</span>
+              <button
+                onClick={() => setShow((s) => !s)}
+                aria-label={show ? "Ocultar saldo" : "Mostrar saldo"}
+                className="p-1"
+              >
+                {show ? <Eye size={18} /> : <EyeOff size={18} />}
+              </button>
             </div>
-            <div className="mt-3 text-sm">Saldo disponível</div>
-            <div className="flex items-center justify-between mt-1">
-              <div className="flex items-center gap-2 text-2xl font-bold">
-                {show ? formatBRL(bankInfo.balance) : "R$ ••••••"}
-                <button onClick={() => setShow((s) => !s)}>
-                  {show ? <Eye size={18} /> : <EyeOff size={18} />}
-                </button>
-              </div>
-              <Link to="/app/extrato" className="underline text-sm">
-                Ver detalhes
-              </Link>
+            <div className="text-2xl font-bold mt-1">
+              {show ? formatBRL(bankInfo.balance) : "R$ ••••••"}
             </div>
+            <Link
+              to="/app/extrato"
+              className="mt-3 inline-flex w-full items-center justify-center gap-1 rounded-2xl bg-white/20 py-2 text-sm font-semibold"
+            >
+              Ver extrato <ChevronRight size={14} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            <Link
+              to="/app/chat"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-white/20 py-3 text-sm font-semibold"
+            >
+              <MessageCircle size={16} /> Falar com a NOVA
+            </Link>
+            <Link
+              to="/app/notificacoes"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-white/20 py-3 text-sm font-semibold"
+            >
+              <Bell size={16} /> Notificações
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className="bg-white flex-1 px-4 py-4 space-y-4">
-        <div className="rounded-xl border border-slate-200 p-4">
-          <div className="flex justify-between items-center">
-            <span className="font-semibold text-slate-800">Resumo diário</span>
-            <span className="text-xs text-slate-500">18/06/2026</span>
-          </div>
-          <div className="grid grid-cols-2 mt-3 gap-2">
-            <div>
-              <div className="flex items-center gap-1 text-sm text-slate-600">
-                <ArrowUp size={14} className="text-green-600" /> Entradas
-              </div>
-              <div className="font-semibold text-slate-900">{formatBRL(entradas)}</div>
-            </div>
-            <div>
-              <div className="flex items-center gap-1 text-sm text-slate-600">
-                <ArrowDown size={14} className="text-red-600" /> Saídas
-              </div>
-              <div className="font-semibold text-slate-900">{formatBRL(saidas)}</div>
-            </div>
-          </div>
-        </div>
-
-        <Link
-          to="/app/extrato"
-          className="flex items-center gap-1 text-[#1a2a8a] underline text-sm"
-        >
-          Consultar extrato <ChevronRight size={14} />
-        </Link>
-
+      <div className="bg-white flex-1 px-4 py-4 space-y-5">
         <div>
-          <h3 className="font-semibold text-slate-800 mb-2">Soluções para sua empresa</h3>
-          <Link
-            to="/app/pix"
-            className="flex items-center gap-3 rounded-xl border border-slate-200 p-3 hover:bg-slate-50"
-          >
-            <img
-              src={pixWoman}
-              alt="Pix"
-              loading="lazy"
-              width={56}
-              height={56}
-              className="w-14 h-14 rounded-full object-cover shrink-0"
-            />
-            <div>
-              <div className="font-semibold text-slate-800">Pix</div>
-              <p className="text-sm text-slate-600">
-                Pague, receba e transfira a qualquer hora do dia.
-              </p>
-            </div>
-          </Link>
-        </div>
-
-        <div>
-          <h3 className="font-semibold text-slate-800 mb-2">Acesso rápido</h3>
+          <h3 className="font-semibold text-slate-800 mb-2">Favoritos</h3>
           <div className="grid grid-cols-4 gap-2">
-            {quick.map((q) => {
-              const Icon = q.icon;
+            {favoritos.map((f) => {
+              const Icon = f.icon;
               return (
                 <Link
-                  key={q.to}
-                  to={q.to}
-                  className="rounded-xl border border-slate-200 p-2 text-center text-[11px] text-slate-700 aspect-square flex flex-col items-center justify-center gap-1 hover:bg-slate-50"
+                  key={f.to}
+                  to={f.to}
+                  className="rounded-2xl border border-rose-100 bg-white p-2 text-center text-[10px] text-slate-700 aspect-square flex flex-col items-center justify-center gap-1 shadow-sm hover:bg-rose-50 transition-colors"
                 >
-                  <Icon size={22} className="text-[#1a2a8a]" />
-                  <span className="leading-tight">{q.label}</span>
+                  <Icon size={20} className="text-[#e11d48]" />
+                  <span className="leading-tight">{f.label}</span>
                 </Link>
               );
             })}
           </div>
         </div>
 
-        <div className="rounded-xl bg-gradient-to-b from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white p-4 text-sm">
-          <b>Vai pagar boleto? Atenção!</b>
-          <p className="mt-1 opacity-90">
-            Confira os dados e valide a origem antes de confirmar qualquer transação.
+        <div className="rounded-3xl border border-rose-100 p-4 shadow-sm">
+          <div className="flex justify-between items-center">
+            <span className="font-semibold text-slate-800">Resumo do mês</span>
+            <Link to="/app/extrato" className="text-xs text-[#e11d48] underline">
+              detalhes
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 mt-3 gap-3">
+            <div className="rounded-2xl bg-emerald-50 p-3">
+              <div className="text-xs text-emerald-700">Entradas</div>
+              <div className="font-semibold text-emerald-800">{formatBRL(entradas)}</div>
+            </div>
+            <div className="rounded-2xl bg-rose-50 p-3">
+              <div className="text-xs text-[#be123c]">Saídas</div>
+              <div className="font-semibold text-[#be123c]">{formatBRL(saidas)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+            <Sparkles size={16} className="text-[#e11d48]" /> Ofertas para você
+          </h3>
+          <div className="space-y-2">
+            {ofertas.map((o) => (
+              <div key={o.titulo} className="rounded-3xl border border-rose-100 p-4 shadow-sm">
+                <div className="font-semibold text-slate-800">{o.titulo}</div>
+                <p className="text-sm text-slate-600 mt-1">{o.texto}</p>
+                <Link
+                  to={o.to}
+                  className="mt-3 inline-flex items-center gap-1 rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] px-4 py-2 text-sm font-semibold text-white"
+                >
+                  {o.cta} <ChevronRight size={14} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-rose-100 p-4 shadow-sm">
+          <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+            <Gift size={16} className="text-[#e11d48]" /> Seus benefícios
+          </h3>
+          <ul className="space-y-2 text-sm text-slate-700">
+            {beneficios.map((b) => (
+              <li key={b} className="flex items-start gap-2">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#e11d48]" />
+                {b}
+              </li>
+            ))}
+          </ul>
+          <Link
+            to="/app/servicos"
+            className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#e11d48]"
+          >
+            Ver todos os serviços <ChevronRight size={14} />
+          </Link>
+        </div>
+
+        <div className="rounded-3xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] text-white p-4">
+          <div className="flex items-center gap-2 font-semibold">
+            <Lightbulb size={16} /> Dicas e novidades
+          </div>
+          <p className="mt-1 text-sm opacity-95">
+            Cadastre suas chaves Pix e ative o débito automático para não perder vencimentos. Este
+            app é um protótipo: nenhum valor é movimentado de verdade.
           </p>
         </div>
       </div>

@@ -9,14 +9,15 @@ export type Transaction = {
   origin?: string;
 };
 
-const HOLDER = "CLEITON OLIVEIRA DOS PASSOS";
-const COMPANY = "63.031.988 CLEITON OLIVEIRA DOS PASSOS";
-const CNPJ = "63.031.988/0001-76";
-const AGENCY = "2700";
-const ACCOUNT = "3574-2";
-const BALANCE = 132_000_000;
+const HOLDER = "MARIANA COSTA ALMEIDA";
+const COMPANY = "NOVABANK — conta digital demonstrativa";
+const CNPJ = "12.345.678/0001-90";
+const AGENCY = "0001";
+const ACCOUNT = "12345-6";
+const BALANCE = 13_240.75;
 
 export const bankInfo = {
+  bankName: "NOVABANK",
   holder: HOLDER,
   company: COMPANY,
   cnpj: CNPJ,
@@ -27,28 +28,36 @@ export const bankInfo = {
 
 export const transactions: Transaction[] = [
   {
-    id: "t3",
+    id: "t4",
     date: "18/06/2026",
     description: "Pix recebido",
-    origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
+    origin: "MARCOS NUNES DE MIRANDA",
     type: "in",
-    amount: 52_625_000,
+    amount: 3_250.0,
+  },
+  {
+    id: "t3",
+    date: "17/06/2026",
+    description: "Pagamento de boleto",
+    origin: "Concessionária de energia (fictícia)",
+    type: "out",
+    amount: 289.9,
   },
   {
     id: "t2",
     date: "16/06/2026",
-    description: "Pix recebido",
-    origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
-    type: "in",
-    amount: 52_625_000,
+    description: "Pix enviado",
+    origin: "JULIANA PEREIRA LIMA",
+    type: "out",
+    amount: 450.0,
   },
   {
     id: "t1",
     date: "11/06/2026",
-    description: "Pix recebido",
-    origin: "MARCOS NUNES DE MIRANDA - CNPJ 44.529.644/0001-47",
+    description: "Depósito",
+    origin: "Depósito em conta",
     type: "in",
-    amount: 26_750_000,
+    amount: 2_000.0,
   },
 ];
 
@@ -60,12 +69,19 @@ export function formatBRL(n: number) {
   });
 }
 
-const SESSION_KEY = "banco_demo_session";
-const PHOTO_KEY = "banco_demo_photo";
+const PHOTO_KEY = "novabank_photo";
+const PIN_KEY = "novabank_pin";
+const PIN_PADRAO = "2468";
 let activeSession = false;
 
-function readSession() {
-  return activeSession;
+export function getPin(): string {
+  if (typeof window === "undefined") return PIN_PADRAO;
+  return localStorage.getItem(PIN_KEY) ?? PIN_PADRAO;
+}
+
+export function setPin(pin: string) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(PIN_KEY, pin);
 }
 
 export function hasActiveSession() {
@@ -75,7 +91,7 @@ export function hasActiveSession() {
 export function useSession() {
   const [logged, setLogged] = useState<boolean>(false);
   useEffect(() => {
-    setLogged(readSession());
+    setLogged(activeSession);
   }, []);
   return {
     logged,

@@ -2,8 +2,9 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Home,
   MessageCircle,
-  DollarSign,
+  ShoppingBag,
   User,
+  LayoutGrid,
   ArrowLeft,
   HelpCircle,
   Bell,
@@ -11,11 +12,11 @@ import {
   MoreVertical,
   Phone,
   Mail,
-  Settings,
-  Shield,
+  ShieldCheck,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { transactions, useSession } from "@/lib/bank-store";
+import { useState } from "react";
+import { transactions } from "@/lib/bank-store";
 import {
   Dialog,
   DialogContent,
@@ -31,11 +32,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-slate-200 flex items-start justify-center md:p-6">
+    <div className="min-h-screen bg-gradient-to-b from-rose-100 via-rose-50 to-white flex items-start justify-center md:p-6">
       <div
         onCopy={(event) => event.preventDefault()}
         onCut={(event) => event.preventDefault()}
@@ -50,13 +50,14 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 
 export function BlueHeader({ title, showBack = false }: { title?: string; showBack?: boolean }) {
   const navigate = useNavigate();
-  const { logout } = useSession();
   const [helpOpen, setHelpOpen] = useState(false);
+  const naoLidas = transactions.length;
+
   return (
-    <div className="bg-gradient-to-r from-[#1a2a8a] to-[#cc092f] text-white px-4 pt-4 pb-3 flex items-center justify-between">
+    <div className="bg-gradient-to-r from-[#e11d48] to-[#f43f5e] text-white px-4 pt-4 pb-3 flex items-center justify-between">
       <div className="flex items-center gap-2">
         {showBack && (
-          <button onClick={() => navigate({ to: "/app" })} className="p-1">
+          <button onClick={() => navigate({ to: "/app" })} className="p-1" aria-label="Voltar">
             <ArrowLeft size={22} />
           </button>
         )}
@@ -64,12 +65,12 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
           <span className="text-lg font-semibold">{title}</span>
         ) : (
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#cc092f] text-sm font-extrabold">
-              B
+            <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-[#e11d48] text-sm font-extrabold">
+              N
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-bold tracking-wide">Bradesco</div>
-              <div className="text-[10px] opacity-80">empresas e negócios</div>
+              <div className="text-sm font-bold tracking-wide">NOVABANK</div>
+              <div className="text-[10px] opacity-90">conta digital</div>
             </div>
           </div>
         )}
@@ -83,16 +84,14 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
         >
           <HelpCircle size={20} />
         </button>
-        <button
-          onClick={() => navigate({ to: "/app/notificacoes" })}
-          className="relative"
-          aria-label="Notificações"
-        >
+        <Link to="/app/notificacoes" className="relative" aria-label="Notificações">
           <Bell size={20} />
-          <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-red-500 rounded-full text-[9px] font-bold flex items-center justify-center">
-            {transactions.length}
-          </span>
-        </button>
+          {naoLidas > 0 && (
+            <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-white text-[#e11d48] rounded-full text-[9px] font-bold flex items-center justify-center">
+              {naoLidas}
+            </span>
+          )}
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button aria-label="Mais opções" title="Mais opções" className="p-1 -m-1">
@@ -106,28 +105,18 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
               <User className="mr-2 h-4 w-4" /> Meu perfil
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate({ to: "/app/servicos" })}>
-              <Settings className="mr-2 h-4 w-4" /> Serviços
+              <LayoutGrid className="mr-2 h-4 w-4" /> Serviços
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setHelpOpen(true)}>
-              <HelpCircle className="mr-2 h-4 w-4" /> Ajuda e suporte
+              <HelpCircle className="mr-2 h-4 w-4" /> Central de ajuda
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                window.open(
-                  "https://www.bradesco.com.br/html/classic/seguranca/index.shtm",
-                  "_blank",
-                )
-              }
-            >
-              <Shield className="mr-2 h-4 w-4" /> Segurança
+            <DropdownMenuItem onClick={() => navigate({ to: "/app/seguranca" })}>
+              <ShieldCheck className="mr-2 h-4 w-4" /> Segurança
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => {
-                logout();
-                navigate({ to: "/" });
-              }}
-              className="text-red-600 focus:text-red-600"
+              onClick={() => navigate({ to: "/" })}
+              className="text-[#e11d48] focus:text-[#e11d48]"
             >
               <LogOut className="mr-2 h-4 w-4" /> Sair
             </DropdownMenuItem>
@@ -138,40 +127,51 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
       <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>Central de Ajuda</DialogTitle>
-            <DialogDescription>Estamos disponíveis 24h para te ajudar.</DialogDescription>
+            <DialogTitle>Central de ajuda NOVABANK</DialogTitle>
+            <DialogDescription>
+              Canal fictício de atendimento — nada aqui é real.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 text-sm text-slate-700">
             <a
-              href="tel:40044040"
-              className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50"
+              href="tel:40040000"
+              className="flex items-center gap-3 rounded-2xl border border-rose-100 p-3 hover:bg-rose-50"
             >
-              <Phone size={18} className="text-[#1a2a8a]" />
+              <Phone size={18} className="text-[#e11d48]" />
               <div>
                 <div className="font-semibold">Capitais e regiões metropolitanas</div>
-                <div className="text-slate-600">4004 4040</div>
+                <div className="text-slate-600">4004 0000 (demonstração)</div>
               </div>
             </a>
             <a
-              href="tel:08007040040"
-              className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50"
+              href="tel:08000000000"
+              className="flex items-center gap-3 rounded-2xl border border-rose-100 p-3 hover:bg-rose-50"
             >
-              <Phone size={18} className="text-[#1a2a8a]" />
+              <Phone size={18} className="text-[#e11d48]" />
               <div>
                 <div className="font-semibold">Demais localidades</div>
-                <div className="text-slate-600">0800 704 0040</div>
+                <div className="text-slate-600">0800 000 0000 (demonstração)</div>
               </div>
             </a>
             <a
-              href="mailto:atendimento@bradesco.com.br"
-              className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:bg-slate-50"
+              href="mailto:ajuda@novabank.demo"
+              className="flex items-center gap-3 rounded-2xl border border-rose-100 p-3 hover:bg-rose-50"
             >
-              <Mail size={18} className="text-[#1a2a8a]" />
+              <Mail size={18} className="text-[#e11d48]" />
               <div>
                 <div className="font-semibold">E-mail</div>
-                <div className="text-slate-600">atendimento@bradesco.com.br</div>
+                <div className="text-slate-600">ajuda@novabank.demo</div>
               </div>
             </a>
+            <button
+              onClick={() => {
+                setHelpOpen(false);
+                navigate({ to: "/app/chat" });
+              }}
+              className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] py-3 font-semibold text-white"
+            >
+              Falar com a NOVA no chat
+            </button>
           </div>
         </DialogContent>
       </Dialog>
@@ -184,19 +184,22 @@ export function BottomNav() {
   const items = [
     { to: "/app", label: "Início", icon: Home },
     { to: "/app/chat", label: "Chat", icon: MessageCircle },
-    { to: "/app/servicos", label: "Serviços", icon: DollarSign },
+    { to: "/app/shop", label: "Shop", icon: ShoppingBag },
     { to: "/app/perfil", label: "Perfil", icon: User },
+    { to: "/app/servicos", label: "Serviços", icon: LayoutGrid },
   ] as const;
   return (
-    <div className="sticky bottom-0 bg-white border-t border-slate-200 grid grid-cols-4 py-2">
+    <div className="sticky bottom-0 bg-white/95 backdrop-blur border-t border-rose-100 grid grid-cols-5 py-2">
       {items.map((i) => {
-        const active = path === i.to;
+        const active = i.to === "/app" ? path === "/app" || path === "/app/" : path.startsWith(i.to);
         const Icon = i.icon;
         return (
           <Link
             key={i.to}
             to={i.to}
-            className={`flex flex-col items-center text-[11px] ${active ? "text-[#1a2a8a] font-semibold" : "text-slate-600"}`}
+            className={`flex flex-col items-center text-[10px] transition-colors ${
+              active ? "text-[#e11d48] font-semibold" : "text-slate-500"
+            }`}
           >
             <Icon size={20} />
             <span className="mt-0.5">{i.label}</span>

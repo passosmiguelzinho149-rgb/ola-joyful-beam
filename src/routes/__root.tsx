@@ -80,10 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "Bradesco Empresas e Negócios" },
-      { name: "description", content: "App bancário de demonstração — empresas e negócios." },
+      { title: "NOVABANK — banco digital (demonstração)" },
+      { name: "description", content: "Protótipo bancário NOVABANK com dados 100% fictícios." },
       { name: "author", content: "Lovable" },
-      { name: "theme-color", content: "#1a2a8a" },
+      { name: "theme-color", content: "#e11d48" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
