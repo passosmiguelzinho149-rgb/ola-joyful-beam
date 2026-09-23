@@ -40,7 +40,7 @@ function Agendamentos() {
       <DemoBanner />
       <BlueHeader title="Agendamentos" showBack />
       <div className="flex-1 overflow-y-auto bg-slate-50 px-4 py-4 space-y-4">
-        <div className="rounded-xl bg-gradient-to-br from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] p-4 text-white">
+        <div className="rounded-xl bg-[#cc092f] p-4 text-white">
           <div className="flex items-center gap-2 text-sm opacity-90">
             <Calendar size={16} /> Total agendado
           </div>
@@ -52,7 +52,7 @@ function Agendamentos() {
           {agendados.map((a) => (
             <div key={a.id} className="flex items-center gap-3 px-4 py-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-                <Clock size={18} className="text-[#1a2a8a]" />
+                <Clock size={18} className="text-[#cc092f]" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-medium leading-tight text-slate-800">{a.title}</div>
