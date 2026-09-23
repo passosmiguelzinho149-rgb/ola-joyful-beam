@@ -1,8 +1,25 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Delete, Fingerprint, KeyRound, ShieldCheck, UserPlus } from "lucide-react";
+import {
+  Delete,
+  Fingerprint,
+  KeyRound,
+  Lock,
+  ShieldCheck,
+  Smartphone,
+  Unlock,
+  UserPlus,
+} from "lucide-react";
+import { toast } from "sonner";
 import { PhoneFrame } from "@/components/app-shell";
-import { bankInfo, getPin, setPin, useSession } from "@/lib/bank-store";
+import {
+  bankInfo,
+  codigoDemo,
+  getPin,
+  setPin,
+  useSecurity,
+  useSession,
+} from "@/lib/bank-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,7 +30,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,15 +44,24 @@ export const Route = createFileRoute("/")({
 function Login() {
   const navigate = useNavigate();
   const { login } = useSession();
+  const { bloqueado, doisFatores, biometria, setBloqueado } = useSecurity();
+
   const [pin, setPinValue] = useState("");
   const [err, setErr] = useState("");
+  const [etapa, setEtapa] = useState<"pin" | "2fa" | "bloqueio">("pin");
+  const [codigo, setCodigo] = useState("");
+  const [codigoBloqueio, setCodigoBloqueio] = useState("");
   const [bioOpen, setBioOpen] = useState(false);
   const [recOpen, setRecOpen] = useState(false);
   const [recStep, setRecStep] = useState<1 | 2 | 3>(1);
   const [recDoc, setRecDoc] = useState("");
+  const [recCodigo, setRecCodigo] = useState("");
   const [recPin, setRecPin] = useState("");
   const [cadOpen, setCadOpen] = useState(false);
   const [cad, setCad] = useState({ nome: "", cpf: "", email: "", pin: "" });
+
+  const etapaAtual = etapa === "pin" && bloqueado ? "bloqueio" : etapa;
+  const primeiroNome = bankInfo.holder.split(" ")[0];
 
   function concluir(mensagem: string) {
     login();
@@ -59,15 +84,69 @@ function Login() {
       setErr("PIN incorreto. Tente novamente.");
       return;
     }
-    concluir("Bem-vinda de volta!");
+    setErr("");
+    if (bloqueado) {
+      setEtapa("bloqueio");
+      return;
+    }
+    if (doisFatores) {
+      setCodigo("");
+      setEtapa("2fa");
+      toast.info("Enviamos um código de 6 dígitos (demonstração: 4821).");
+      return;
+    }
+    concluir(`Bem-vindo, ${primeiroNome}!`);
   }
 
-  function recuperar() {
+  function confirmarCodigo() {
+    if (codigo.trim() !== codigoDemo()) {
+      setErr("Código incorreto. Use o código demonstrativo 4821.");
+      return;
+    }
+    setErr("");
+    concluir(`Bem-vindo, ${primeiroNome}!`);
+  }
+
+  function desbloquear() {
+    if (codigoBloqueio.trim() !== codigoDemo()) {
+      setErr("Código incorreto. Use o código demonstrativo 4821.");
+      return;
+    }
+    setBloqueado(false);
+    setCodigoBloqueio("");
+    setErr("");
+    setEtapa("pin");
+    toast.success("Conta desbloqueada. Digite seu PIN para entrar.");
+  }
+
+  function abrirBiometria() {
+    if (bloqueado) {
+      toast.error("Conta bloqueada. Desbloqueie antes de entrar.");
+      setEtapa("bloqueio");
+      return;
+    }
+    if (!biometria) {
+      toast.error("A biometria está desativada neste aparelho. Use o PIN.");
+      return;
+    }
+    setBioOpen(true);
+  }
+
+  function enviarCodigoRecuperacao() {
     if (recDoc.trim().length < 5) {
       toast.error("Informe o CPF ou e-mail cadastrado");
       return;
     }
     setRecStep(2);
+    toast.info("Código demonstrativo enviado: 4821");
+  }
+
+  function validarCodigoRecuperacao() {
+    if (recCodigo.trim() !== codigoDemo()) {
+      toast.error("Código incorreto");
+      return;
+    }
+    setRecStep(3);
   }
 
   function salvarNovoPin() {
@@ -79,6 +158,7 @@ function Login() {
     setRecOpen(false);
     setRecStep(1);
     setRecDoc("");
+    setRecCodigo("");
     setRecPin("");
     toast.success("PIN redefinido neste aparelho");
   }
@@ -98,7 +178,7 @@ function Login() {
 
   return (
     <PhoneFrame>
-      <div className="bg-gradient-to-b from-[#e11d48] via-[#f43f5e] to-[#fda4af] text-white px-6 pt-8 pb-24 relative">
+      <div className="bg-gradient-to-b from-[#e11d48] via-[#f43f5e] to-[#fda4af] text-white px-6 pt-8 pb-24">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#e11d48] text-base font-extrabold">
             N
@@ -109,77 +189,155 @@ function Login() {
           </div>
         </div>
         <h1 className="mt-10 text-2xl font-bold leading-tight">
-          Seu banco digital,
-          <br />
-          simples e rápido.
+          {etapaAtual === "2fa"
+            ? "Confirme sua identidade"
+            : etapaAtual === "bloqueio"
+              ? "Sua conta está bloqueada"
+              : "Seu banco digital, simples e rápido."}
         </h1>
       </div>
 
       <div className="-mt-16 mx-4 bg-white rounded-3xl shadow-xl p-5 z-10 relative space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-xs text-slate-500">Acesso demonstrativo</div>
+            <div className="text-xs text-slate-500">
+              {etapaAtual === "pin" ? "Acesso demonstrativo" : "Verificação de segurança"}
+            </div>
             <div className="font-semibold text-slate-900">{bankInfo.holder}</div>
-            <div className="text-xs text-slate-500">Ag. {bankInfo.agency} — Conta {bankInfo.account}</div>
+            <div className="text-xs text-slate-500">
+              Ag. {bankInfo.agency} — Conta {bankInfo.account}
+            </div>
           </div>
           <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-[#e11d48]">
-            <ShieldCheck size={18} />
+            {etapaAtual === "bloqueio" ? (
+              <Lock size={18} />
+            ) : etapaAtual === "2fa" ? (
+              <Smartphone size={18} />
+            ) : (
+              <ShieldCheck size={18} />
+            )}
           </div>
         </div>
 
-        <div className="flex justify-center gap-3 py-1">
-          {[0, 1, 2, 3].map((i) => (
-            <span
-              key={i}
-              className={`w-3.5 h-3.5 rounded-full border ${
-                pin.length > i ? "bg-[#e11d48] border-[#e11d48]" : "bg-white border-slate-300"
-              }`}
-            />
-          ))}
-        </div>
+        {etapaAtual === "pin" && (
+          <>
+            <div className="flex justify-center gap-3 py-1">
+              {[0, 1, 2, 3].map((i) => (
+                <span
+                  key={i}
+                  className={`w-3.5 h-3.5 rounded-full border ${
+                    pin.length > i ? "bg-[#e11d48] border-[#e11d48]" : "bg-white border-slate-300"
+                  }`}
+                />
+              ))}
+            </div>
 
-        {err && <p className="text-xs text-center text-[#e11d48]">{err}</p>}
+            {err && <p className="text-xs text-center text-[#e11d48]">{err}</p>}
 
-        <div className="grid grid-cols-3 gap-2">
-          {teclas.map((t) => (
-            <button
-              key={t}
-              onClick={() => digitar(t)}
-              className="rounded-2xl border border-slate-200 py-3 text-lg font-semibold text-slate-800 active:bg-rose-50"
+            <div className="grid grid-cols-3 gap-2">
+              {teclas.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => digitar(t)}
+                  className="rounded-2xl border border-slate-200 py-3 text-lg font-semibold text-slate-800 active:bg-rose-50"
+                >
+                  {t}
+                </button>
+              ))}
+              <button
+                onClick={abrirBiometria}
+                className="rounded-2xl border border-slate-200 py-3 flex items-center justify-center text-[#e11d48]"
+                aria-label="Entrar com biometria"
+              >
+                <Fingerprint size={20} />
+              </button>
+              <button
+                onClick={() => digitar("0")}
+                className="rounded-2xl border border-slate-200 py-3 text-lg font-semibold text-slate-800 active:bg-rose-50"
+              >
+                0
+              </button>
+              <button
+                onClick={() => setPinValue((p) => p.slice(0, -1))}
+                className="rounded-2xl border border-slate-200 py-3 flex items-center justify-center text-slate-600"
+                aria-label="Apagar"
+              >
+                <Delete size={20} />
+              </button>
+            </div>
+
+            <Button
+              onClick={entrar}
+              className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] hover:opacity-90 py-6 text-base font-semibold"
             >
-              {t}
+              Entrar
+            </Button>
+          </>
+        )}
+
+        {etapaAtual === "2fa" && (
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">
+              Digite o código de 6 dígitos enviado por SMS para o número cadastrado. Nesta
+              demonstração use o código 4821.
+            </p>
+            <Input
+              inputMode="numeric"
+              maxLength={6}
+              placeholder="Código de 6 dígitos"
+              value={codigo}
+              onChange={(e) => {
+                setErr("");
+                setCodigo(e.target.value.replace(/\D/g, ""));
+              }}
+            />
+            {err && <p className="text-xs text-[#e11d48]">{err}</p>}
+            <Button
+              onClick={confirmarCodigo}
+              className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] py-6 text-base font-semibold"
+            >
+              Confirmar código
+            </Button>
+            <button
+              onClick={() => {
+                setErr("");
+                setEtapa("pin");
+              }}
+              className="w-full text-center text-xs font-semibold text-slate-500"
+            >
+              Voltar para o PIN
             </button>
-          ))}
-          <button
-            onClick={() => setBioOpen(true)}
-            className="rounded-2xl border border-slate-200 py-3 flex items-center justify-center text-[#e11d48]"
-            aria-label="Biometria"
-          >
-            <Fingerprint size={20} />
-          </button>
-          <button
-            onClick={() => digitar("0")}
-            className="rounded-2xl border border-slate-200 py-3 text-lg font-semibold text-slate-800 active:bg-rose-50"
-          >
-            0
-          </button>
-          <button
-            onClick={() => setPinValue((p) => p.slice(0, -1))}
-            className="rounded-2xl border border-slate-200 py-3 flex items-center justify-center text-slate-600"
-            aria-label="Apagar"
-          >
-            <Delete size={20} />
-          </button>
-        </div>
+          </div>
+        )}
 
-        <Button
-          onClick={entrar}
-          className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] hover:opacity-90 py-6 text-base font-semibold"
-        >
-          Entrar
-        </Button>
-
-        <p className="text-[11px] text-center text-slate-400">PIN inicial da demonstração: 2468</p>
+        {etapaAtual === "bloqueio" && (
+          <div className="space-y-3">
+            <div className="rounded-2xl bg-rose-50 p-3 text-sm text-slate-700">
+              Por segurança, esta conta demonstrativa está bloqueada: o acesso e as transações ficam
+              suspensos até o desbloqueio.
+            </div>
+            <Input
+              inputMode="numeric"
+              maxLength={4}
+              placeholder="Código de desbloqueio"
+              value={codigoBloqueio}
+              onChange={(e) => {
+                setErr("");
+                setCodigoBloqueio(e.target.value.replace(/\D/g, ""));
+              }}
+            />
+            {err && <p className="text-xs text-[#e11d48]">{err}</p>}
+            <Button
+              onClick={desbloquear}
+              className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e] py-6 text-base font-semibold gap-2"
+            >
+              <Unlock size={18} /> Desbloquear conta
+            </Button>
+            <p className="text-[11px] text-center text-slate-400">
+              Código demonstrativo de desbloqueio: 4821
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="p-4 mt-auto space-y-2">
@@ -198,6 +356,7 @@ function Login() {
         >
           <UserPlus size={16} /> Criar conta demonstrativa
         </button>
+        <p className="text-[11px] text-center text-slate-400">PIN inicial da demonstração: 2468</p>
       </div>
 
       <Dialog open={bioOpen} onOpenChange={setBioOpen}>
@@ -233,18 +392,21 @@ function Login() {
             <DialogDescription>
               {recStep === 1
                 ? "Informe o CPF ou e-mail cadastrado na conta demonstrativa."
-                : "Use o código demonstrativo para definir um novo PIN."}
+                : recStep === 2
+                  ? "Digite o código demonstrativo enviado para o seu contato."
+                  : "Agora escolha um novo PIN de 4 dígitos."}
             </DialogDescription>
           </DialogHeader>
-          {recStep === 1 ? (
-            <div className="space-y-3">
-              <Input
-                placeholder="CPF ou e-mail"
-                value={recDoc}
-                onChange={(e) => setRecDoc(e.target.value)}
-              />
-            </div>
-          ) : (
+
+          {recStep === 1 && (
+            <Input
+              placeholder="CPF ou e-mail"
+              value={recDoc}
+              onChange={(e) => setRecDoc(e.target.value)}
+            />
+          )}
+
+          {recStep === 2 && (
             <div className="space-y-3">
               <div className="rounded-2xl bg-rose-50 p-3 text-sm text-slate-700">
                 Código demonstrativo: <b>4821</b>
@@ -252,21 +414,41 @@ function Login() {
               <Input
                 inputMode="numeric"
                 maxLength={4}
-                placeholder="Novo PIN de 4 dígitos"
-                value={recPin}
-                onChange={(e) => setRecPin(e.target.value.replace(/\D/g, ""))}
+                placeholder="Código recebido"
+                value={recCodigo}
+                onChange={(e) => setRecCodigo(e.target.value.replace(/\D/g, ""))}
               />
             </div>
           )}
+
+          {recStep === 3 && (
+            <Input
+              inputMode="numeric"
+              maxLength={4}
+              placeholder="Novo PIN de 4 dígitos"
+              value={recPin}
+              onChange={(e) => setRecPin(e.target.value.replace(/\D/g, ""))}
+            />
+          )}
+
           <DialogFooter>
-            {recStep === 1 ? (
+            {recStep === 1 && (
               <Button
-                onClick={recuperar}
+                onClick={enviarCodigoRecuperacao}
                 className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e]"
               >
                 Enviar código
               </Button>
-            ) : (
+            )}
+            {recStep === 2 && (
+              <Button
+                onClick={validarCodigoRecuperacao}
+                className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e]"
+              >
+                Validar código
+              </Button>
+            )}
+            {recStep === 3 && (
               <Button
                 onClick={salvarNovoPin}
                 className="w-full rounded-2xl bg-gradient-to-r from-[#e11d48] to-[#f43f5e]"

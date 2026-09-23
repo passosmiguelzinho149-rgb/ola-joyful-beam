@@ -1,25 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Eye,
-  EyeOff,
-  ChevronRight,
-  Zap,
   ArrowLeftRight,
   Barcode,
-  CreditCard,
-  HandCoins,
-  TrendingUp,
-  PieChart,
-  SlidersHorizontal,
-  MessageCircle,
   Bell,
+  ChevronRight,
+  CreditCard,
+  Eye,
+  EyeOff,
   Gift,
+  Globe,
+  HandCoins,
+  History,
+  Landmark,
   Lightbulb,
+  MessageCircle,
+  PieChart,
+  PiggyBank,
+  ShieldCheck,
+  SlidersHorizontal,
+  Smartphone,
   Sparkles,
+  TrendingUp,
+  Wallet,
+  Zap,
 } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav } from "@/components/app-shell";
-import { bankInfo, formatBRL, transactions } from "@/lib/bank-store";
+import { bankInfo, formatBRL, notificacoes, transactions, useNotificacoes } from "@/lib/bank-store";
 
 export const Route = createFileRoute("/app/")({
   component: Home,
@@ -34,6 +41,20 @@ const favoritos = [
   { to: "/app/investimentos", label: "Investimentos", icon: TrendingUp },
   { to: "/app/open-finance", label: "Open Finance", icon: PieChart },
   { to: "/app/servicos", label: "Personalizar", icon: SlidersHorizontal },
+] as const;
+
+const servicos = [
+  { to: "/app/saldo", label: "Saldo e extrato", icon: Wallet },
+  { to: "/app/pix", label: "Pix", icon: Zap },
+  { to: "/app/pagamentos", label: "Pagamentos e boletos", icon: Barcode },
+  { to: "/app/cartoes", label: "Cartões", icon: CreditCard },
+  { to: "/app/emprestimos", label: "Empréstimos", icon: HandCoins },
+  { to: "/app/investimentos", label: "Investimentos", icon: TrendingUp },
+  { to: "/app/poupanca", label: "Poupança", icon: PiggyBank },
+  { to: "/app/cambio", label: "Câmbio", icon: Globe },
+  { to: "/app/seguros", label: "Seguros", icon: ShieldCheck },
+  { to: "/app/consorcio", label: "Consórcio", icon: Landmark },
+  { to: "/app/recargas", label: "Recargas", icon: Smartphone },
 ] as const;
 
 const ofertas = [
@@ -65,6 +86,8 @@ const beneficios = [
 
 function Home() {
   const [show, setShow] = useState(true);
+  const { naoLidas } = useNotificacoes();
+  const primeiroNome = bankInfo.holder.split(" ")[0];
   const entradas = transactions.filter((t) => t.type === "in").reduce((s, t) => s + t.amount, 0);
   const saidas = transactions.filter((t) => t.type === "out").reduce((s, t) => s + t.amount, 0);
 
@@ -74,7 +97,7 @@ function Home() {
         <BlueHeader />
         <div className="px-4 pt-2 pb-7">
           <p className="text-sm opacity-90">Olá,</p>
-          <h2 className="text-xl font-bold leading-tight">{bankInfo.holder}</h2>
+          <h2 className="text-xl font-bold leading-tight">{primeiroNome}</h2>
           <p className="text-[11px] opacity-90 mt-1">
             Ag. {bankInfo.agency} — Conta {bankInfo.account} — NOVABANK
           </p>
@@ -113,12 +136,52 @@ function Home() {
               className="flex items-center justify-center gap-2 rounded-2xl bg-white/20 py-3 text-sm font-semibold"
             >
               <Bell size={16} /> Notificações
+              {naoLidas.length > 0 && (
+                <span className="min-w-[16px] h-[16px] px-1 rounded-full bg-white text-[#e11d48] text-[10px] font-bold flex items-center justify-center">
+                  {naoLidas.length}
+                </span>
+              )}
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="bg-white flex-1 px-4 py-4 space-y-5">
+      <div className="bg-white flex-1 px-4 py-4 space-y-5 overflow-y-auto">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+              <Bell size={16} className="text-[#e11d48]" /> Notificações
+            </h3>
+            <Link to="/app/notificacoes" className="text-xs text-[#e11d48] underline">
+              ver todas
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {notificacoes.slice(0, 2).map((n) => (
+              <Link
+                key={n.id}
+                to="/app/notificacoes"
+                className="flex items-start gap-3 rounded-2xl border border-rose-100 p-3 hover:bg-rose-50"
+              >
+                <span className="mt-0.5 w-8 h-8 rounded-full bg-rose-50 text-[#e11d48] flex items-center justify-center shrink-0">
+                  {n.tipo === "seguranca" ? (
+                    <ShieldCheck size={16} />
+                  ) : n.tipo === "oferta" ? (
+                    <Gift size={16} />
+                  ) : (
+                    <Bell size={16} />
+                  )}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold text-slate-800">{n.titulo}</span>
+                  <span className="block text-xs text-slate-600">{n.mensagem}</span>
+                  <span className="block text-[11px] text-slate-400 mt-0.5">{n.data}</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         <div>
           <h3 className="font-semibold text-slate-800 mb-2">Favoritos</h3>
           <div className="grid grid-cols-4 gap-2">
@@ -177,6 +240,52 @@ function Home() {
           </div>
         </div>
 
+        <div>
+          <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+            <Wallet size={16} className="text-[#e11d48]" /> Serviços financeiros
+          </h3>
+          <div className="grid grid-cols-2 gap-2">
+            {servicos.map((s) => {
+              const Icon = s.icon;
+              return (
+                <Link
+                  key={s.label}
+                  to={s.to}
+                  className="flex items-center gap-3 rounded-2xl border border-rose-100 p-3 text-sm text-slate-700 shadow-sm hover:bg-rose-50"
+                >
+                  <Icon size={18} className="text-[#e11d48] shrink-0" />
+                  <span className="leading-tight">{s.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-rose-100 p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-slate-800 flex items-center gap-2">
+              <ShieldCheck size={16} className="text-[#e11d48]" /> Segurança da conta
+            </span>
+            <Link to="/app/seguranca" className="text-xs font-semibold text-[#e11d48] underline">
+              abrir
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            <Link
+              to="/app/dispositivos"
+              className="rounded-2xl bg-rose-50 p-3 text-xs font-semibold text-slate-700 flex items-center gap-2"
+            >
+              <Smartphone size={16} className="text-[#e11d48]" /> Dispositivos
+            </Link>
+            <Link
+              to="/app/acessos"
+              className="rounded-2xl bg-rose-50 p-3 text-xs font-semibold text-slate-700 flex items-center gap-2"
+            >
+              <History size={16} className="text-[#e11d48]" /> Acessos
+            </Link>
+          </div>
+        </div>
+
         <div className="rounded-3xl border border-rose-100 p-4 shadow-sm">
           <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
             <Gift size={16} className="text-[#e11d48]" /> Seus benefícios
@@ -202,8 +311,8 @@ function Home() {
             <Lightbulb size={16} /> Dicas e novidades
           </div>
           <p className="mt-1 text-sm opacity-95">
-            Cadastre suas chaves Pix e ative o débito automático para não perder vencimentos. Este
-            app é um protótipo: nenhum valor é movimentado de verdade.
+            Confira em Segurança o histórico de acessos e os dispositivos autorizados. Este app é um
+            protótipo: nenhum valor é movimentado de verdade.
           </p>
         </div>
       </div>

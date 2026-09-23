@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { transactions } from "@/lib/bank-store";
+import { useNotificacoes, useSession } from "@/lib/bank-store";
 import {
   Dialog,
   DialogContent,
@@ -50,8 +50,9 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
 
 export function BlueHeader({ title, showBack = false }: { title?: string; showBack?: boolean }) {
   const navigate = useNavigate();
+  const { logout } = useSession();
+  const { naoLidas } = useNotificacoes();
   const [helpOpen, setHelpOpen] = useState(false);
-  const naoLidas = transactions.length;
 
   return (
     <div className="bg-gradient-to-r from-[#e11d48] to-[#f43f5e] text-white px-4 pt-4 pb-3 flex items-center justify-between">
@@ -86,9 +87,9 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
         </button>
         <Link to="/app/notificacoes" className="relative" aria-label="Notificações">
           <Bell size={20} />
-          {naoLidas > 0 && (
+          {naoLidas.length > 0 && (
             <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-1 bg-white text-[#e11d48] rounded-full text-[9px] font-bold flex items-center justify-center">
-              {naoLidas}
+              {naoLidas.length}
             </span>
           )}
         </Link>
@@ -115,7 +116,10 @@ export function BlueHeader({ title, showBack = false }: { title?: string; showBa
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigate({ to: "/" })}
+              onClick={() => {
+                logout();
+                navigate({ to: "/" });
+              }}
               className="text-[#e11d48] focus:text-[#e11d48]"
             >
               <LogOut className="mr-2 h-4 w-4" /> Sair
