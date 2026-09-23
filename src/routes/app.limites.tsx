@@ -33,7 +33,7 @@ function Limites() {
       <div className="flex-1 overflow-y-auto bg-slate-50 px-4 py-4 space-y-4">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <div className="flex items-start gap-3">
-            <SlidersHorizontal className="mt-0.5 text-[#1a2a8a]" size={20} />
+            <SlidersHorizontal className="mt-0.5 text-[#cc092f]" size={20} />
             <p className="text-sm text-slate-600">
               Acompanhe quanto da sua empresa já foi usado em cada modalidade. Ampliações passam
               pela análise automática e valem no mesmo dia.
@@ -53,7 +53,7 @@ function Limites() {
 
                 <div className="mt-3 h-2 w-full rounded-full bg-slate-100">
                   <div
-                    className={`h-2 rounded-full ${pct > 80 ? "bg-[#cc092f]" : "bg-[#1a2a8a]"}`}
+                    className={`h-2 rounded-full ${pct > 80 ? "bg-[#cc092f]" : "bg-[#cc092f]"}`}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -65,7 +65,7 @@ function Limites() {
 
                 <button
                   onClick={() => increase(v.id)}
-                  className="mt-3 w-full rounded-md border border-[#1a2a8a] py-2 text-sm font-semibold text-[#1a2a8a]"
+                  className="mt-3 w-full rounded-md border border-[#1a2a8a] py-2 text-sm font-semibold text-[#cc092f]"
                 >
                   Solicitar ampliação
                 </button>
