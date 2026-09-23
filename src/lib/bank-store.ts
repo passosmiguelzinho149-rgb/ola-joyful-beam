@@ -376,3 +376,56 @@ export function useNotificacoes() {
     marcarTodas: () => gravar(notificacoes.map((n) => n.id)),
   };
 }
+
+
+export function registrarSaida({
+  descricao,
+  valor,
+  destinatario,
+  documento,
+  instituicao = "OUTRA INSTITUIÇÃO FINANCEIRA",
+  agencia = "0001",
+  conta = "00000-0",
+  chave,
+  tipoChave = "Chave Pix",
+}: {
+  descricao: string;
+  valor: number;
+  destinatario: string;
+  documento?: string;
+  instituicao?: string;
+  agencia?: string;
+  conta?: string;
+  chave?: string;
+  tipoChave?: string;
+}) {
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const id = `tx-${now.getTime()}`;
+  const data = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+  const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const saldoAnterior = bankInfo.balance;
+  bankInfo.balance = Math.max(0, saldoAnterior - valor);
+  const tx: Transaction = {
+    id,
+    date: data,
+    time,
+    description: descricao,
+    type: "out",
+    amount: valor,
+    origin: destinatario,
+    documento,
+    instituicao,
+    agencia,
+    conta,
+    tipoChave,
+    chave,
+    mensagem: "Operação realizada no protótipo",
+    canal: "Aplicativo NOVABANK",
+    endToEndId: `E${now.getTime()}NOVADEMO`,
+    autenticacao: `${Math.random().toString(36).slice(2, 10).toUpperCase()}-DEMO`,
+    saldoApos: bankInfo.balance,
+  };
+  transactions.unshift(tx);
+  return tx;
+}
