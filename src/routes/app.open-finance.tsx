@@ -32,7 +32,7 @@ function OpenFinance() {
       <div className="flex-1 overflow-y-auto bg-slate-50 px-4 py-4 space-y-4">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <div className="flex items-start gap-3">
-            <ShieldCheck className="mt-0.5 text-[#1a2a8a]" size={20} />
+            <ShieldCheck className="mt-0.5 text-[#cc092f]" size={20} />
             <div>
               <div className="font-semibold text-slate-800">Seus dados, seu controle</div>
               <p className="mt-1 text-sm text-slate-600">
@@ -52,7 +52,7 @@ function OpenFinance() {
           {institutions.map((i) => (
             <div key={i.id} className="flex items-center gap-3 px-4 py-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-                <Building2 size={18} className="text-[#1a2a8a]" />
+                <Building2 size={18} className="text-[#cc092f]" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="font-medium leading-tight text-slate-800">{i.name}</div>
