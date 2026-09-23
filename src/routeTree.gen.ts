@@ -139,6 +139,7 @@ export interface FileRouteTypes {
     | '/app/servicos'
     | '/app/'
     | '/app/comprovante/$id'
+    | '/app/transferencias'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -151,6 +152,7 @@ export interface FileRouteTypes {
     | '/app/servicos'
     | '/app'
     | '/app/comprovante/$id'
+    | '/app/transferencias'
   id:
     | '__root__'
     | '/'
@@ -164,6 +166,7 @@ export interface FileRouteTypes {
     | '/app/servicos'
     | '/app/'
     | '/app/comprovante/$id'
+    | '/app/transferencias'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -248,6 +251,13 @@ declare module '@tanstack/react-router' {
       path: '/comprovante/$id'
       fullPath: '/app/comprovante/$id'
       preLoaderRoute: typeof AppComprovanteIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/transferencias': {
+      id: '/app/transferencias'
+      path: '/transferencias'
+      fullPath: '/app/transferencias'
+      preLoaderRoute: typeof AppTransferenciasRouteImport
       parentRoute: typeof AppRoute
     }
   }
