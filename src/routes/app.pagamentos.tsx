@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Barcode,
   Calendar,
@@ -8,9 +9,13 @@ import {
   Repeat,
   Zap,
   ArrowRight,
+  X,
 } from "lucide-react";
 import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { formatBRL, registrarSaida } from "@/lib/bank-store";
 
 export const Route = createFileRoute("/app/pagamentos")({
   component: Pagamentos,
@@ -26,6 +31,40 @@ const actions = [
 ] as const;
 
 function Pagamentos() {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [tipo, setTipo] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [valor, setValor] = useState("");
+
+  const iniciar = (label: string) => {
+    if (label === "Agendar pagamento" || label === "Tributos e impostos" || label === "Convênios") {
+      toast.info("Fluxo demonstrativo preparado. Informe os dados para continuar.");
+    }
+    setTipo(label);
+    setCodigo("");
+    setValor("");
+    setOpen(true);
+  };
+
+  const confirmar = () => {
+    const v = Number(valor.replace(".", "").replace(",", "."));
+    if (!codigo.trim() || !v || v <= 0) {
+      toast.error("Informe o código e um valor válido");
+      return;
+    }
+    const tx = registrarSaida({
+      descricao: tipo,
+      valor: v,
+      destinatario: codigo,
+      chave: codigo,
+      tipoChave: "Código de pagamento",
+    });
+    setOpen(false);
+    toast.success("Pagamento demonstrativo realizado");
+    navigate({ to: "/app/comprovante/$id", params: { id: tx.id } });
+  };
+
   return (
     <PhoneFrame>
       <DemoBanner />
@@ -44,7 +83,7 @@ function Pagamentos() {
             return (
               <button
                 key={a.label}
-                onClick={() => toast.info(a.msg)}
+                onClick={() => iniciar(a.label)}
                 className="rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:bg-slate-50"
               >
                 <Icon size={22} className="text-[#cc092f]" />
@@ -65,6 +104,22 @@ function Pagamentos() {
         </Link>
       </div>
       <BottomNav />
+      {open && (
+        <div className="absolute inset-0 z-40 bg-black/40 flex items-end">
+          <div className="w-full rounded-t-3xl bg-white p-5 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <div><h2 className="font-bold text-lg text-slate-800">{tipo}</h2><p className="text-xs text-slate-500">Pagamento demonstrativo</p></div>
+              <button onClick={() => setOpen(false)} aria-label="Fechar"><X size={20}/></button>
+            </div>
+            <div className="space-y-3">
+              <div><label className="text-xs font-semibold text-slate-600">Código / referência</label><Input value={codigo} onChange={e=>setCodigo(e.target.value)} placeholder="Digite ou cole o código"/></div>
+              <div><label className="text-xs font-semibold text-slate-600">Valor (R$)</label><Input inputMode="decimal" value={valor} onChange={e=>setValor(e.target.value)} placeholder="0,00"/></div>
+              <div className="rounded-2xl bg-[#fff1f2] p-3 text-xs text-[#9f1239]">Valor informado: {formatBRL(Number(valor.replace(".", "").replace(",", ".")) || 0)}</div>
+              <Button onClick={confirmar} className="w-full bg-[#cc092f] hover:bg-[#a30725]">Continuar e confirmar</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </PhoneFrame>
   );
 }
