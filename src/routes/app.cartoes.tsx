@@ -39,7 +39,7 @@ function Cartoes() {
       <DemoBanner />
       <BlueHeader title="Cartões" showBack />
       <div className="flex-1 overflow-y-auto bg-slate-50 px-4 py-4 space-y-4">
-        <div className="rounded-2xl bg-gradient-to-br from-[#1a2a8a] via-[#5b1a8a] to-[#cc092f] text-white p-5 shadow-lg">
+        <div className="rounded-2xl bg-[#cc092f] text-white p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-sm opacity-90">Limite total disponível</span>
             <button onClick={() => setShow((s) => !s)} aria-label="Mostrar ou ocultar limite">
@@ -60,7 +60,7 @@ function Cartoes() {
             return (
               <div key={c.id} className="rounded-xl border border-slate-200 bg-white p-4">
                 <div className="flex items-center gap-3">
-                  <CreditCard size={22} className="text-[#1a2a8a]" />
+                  <CreditCard size={22} className="text-[#cc092f]" />
                   <div className="min-w-0 flex-1">
                     <div className="font-semibold leading-tight text-slate-800">{c.name}</div>
                     <div className="text-xs text-slate-500">•••• {c.last4}</div>
@@ -89,7 +89,7 @@ function Cartoes() {
                 <div className="mt-3 flex gap-2">
                   <Link
                     to="/app/extrato"
-                    className="flex-1 rounded-md bg-[#1a2a8a] py-2 text-center text-sm text-white"
+                    className="flex-1 rounded-md bg-[#cc092f] py-2 text-center text-sm text-white"
                   >
                     Ver fatura
                   </Link>
