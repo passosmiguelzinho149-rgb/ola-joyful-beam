@@ -123,6 +123,7 @@ export interface FileRoutesById {
   '/app/servicos': typeof AppServicosRoute
   '/app/': typeof AppIndexRoute
   '/app/comprovante/$id': typeof AppComprovanteIdRoute
+  '/app/transferencias': typeof AppTransferenciasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
