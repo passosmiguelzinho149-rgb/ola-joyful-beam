@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
-import { PhoneFrame, BlueHeader, BottomNav } from "@/components/app-shell";
+import { PhoneFrame, BlueHeader, BottomNav, DemoBanner } from "@/components/app-shell";
 
 export const Route = createFileRoute("/app/servicos")({
   component: Servicos,
@@ -79,10 +79,11 @@ const categorias = [
 function Servicos() {
   return (
     <PhoneFrame>
-      <BlueHeader />
-      <div className="bg-white flex-1 px-4 py-4 overflow-y-auto">
+      <DemoBanner />
+      <BlueHeader title="Serviços" showBack />
+      <div className="bg-[#f7f7f8] flex-1 px-4 py-4 overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-slate-900">Serviços</h1>
+          <h1 className="text-lg font-bold text-slate-800">Todos os serviços</h1>
           <Link
             to="/app/servicos"
             className="rounded-full border border-[#e11d48] text-[#e11d48] px-4 py-1 text-sm font-medium"
@@ -94,10 +95,10 @@ function Servicos() {
         <div className="space-y-6 pb-4">
           {categorias.map((cat) => (
             <div key={cat.titulo}>
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-[#be123c] mb-2">
+              <h2 className="text-sm font-bold text-slate-800 mb-2">
                 {cat.titulo}
               </h2>
-              <div className="rounded-3xl border border-rose-100 divide-y divide-rose-50 overflow-hidden shadow-sm">
+              <div className="rounded-2xl border border-rose-100 divide-y divide-rose-50 overflow-hidden shadow-sm bg-white">
                 {cat.itens.map((i) => (
                   <Link
                     key={i.to}
