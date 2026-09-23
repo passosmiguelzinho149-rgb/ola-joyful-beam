@@ -20,6 +20,7 @@ import { Route as AppLinhasCreditoRouteImport } from './routes/app.linhas-credit
 import { Route as AppExtratoRouteImport } from './routes/app.extrato'
 import { Route as AppPageRouteImport } from './routes/app.$page'
 import { Route as AppComprovanteIdRouteImport } from './routes/app.comprovante.$id'
+import { Route as AppTransferenciasRouteImport } from './routes/app.transferencias'
 
 const AppRoute = AppRouteImport.update({
   id: '/app',
@@ -76,6 +77,11 @@ const AppComprovanteIdRoute = AppComprovanteIdRouteImport.update({
   path: '/comprovante/$id',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTransferenciasRoute = AppTransferenciasRouteImport.update({
+  id: '/transferencias',
+  path: '/transferencias',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/app/servicos': typeof AppServicosRoute
   '/app/': typeof AppIndexRoute
   '/app/comprovante/$id': typeof AppComprovanteIdRoute
+  '/app/transferencias': typeof AppTransferenciasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/app/servicos': typeof AppServicosRoute
   '/app': typeof AppIndexRoute
   '/app/comprovante/$id': typeof AppComprovanteIdRoute
+  '/app/transferencias': typeof AppTransferenciasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -254,6 +262,7 @@ interface AppRouteChildren {
   AppServicosRoute: typeof AppServicosRoute
   AppIndexRoute: typeof AppIndexRoute
   AppComprovanteIdRoute: typeof AppComprovanteIdRoute
+  AppTransferenciasRoute: typeof AppTransferenciasRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -266,6 +275,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppServicosRoute: AppServicosRoute,
   AppIndexRoute: AppIndexRoute,
   AppComprovanteIdRoute: AppComprovanteIdRoute,
+  AppTransferenciasRoute: AppTransferenciasRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
