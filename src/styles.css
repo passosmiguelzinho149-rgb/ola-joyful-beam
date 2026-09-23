@@ -100,11 +100,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --bank-blue: oklch(0.25 0.2 268);
-  --bank-blue-foreground: oklch(0.99 0.01 260);
-  --bank-blue-soft: oklch(0.34 0.19 270 / 72%);
-  --bank-chip: oklch(0.91 0.03 265);
-  --bank-sheet: oklch(0.985 0.004 260);
+  --bank-blue: oklch(0.57 0.22 20);
+  --bank-blue-foreground: oklch(0.99 0.01 20);
+  --bank-blue-soft: oklch(0.55 0.20 20 / 78%);
+  --bank-chip: oklch(0.96 0.04 20);
+  --bank-sheet: oklch(0.985 0.004 20);
 }
 
 .dark {
@@ -140,11 +140,11 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-  --bank-blue: oklch(0.25 0.2 268);
-  --bank-blue-foreground: oklch(0.99 0.01 260);
-  --bank-blue-soft: oklch(0.34 0.19 270 / 72%);
-  --bank-chip: oklch(0.91 0.03 265);
-  --bank-sheet: oklch(0.985 0.004 260);
+  --bank-blue: oklch(0.57 0.22 20);
+  --bank-blue-foreground: oklch(0.99 0.01 20);
+  --bank-blue-soft: oklch(0.55 0.20 20 / 78%);
+  --bank-chip: oklch(0.96 0.04 20);
+  --bank-sheet: oklch(0.985 0.004 20);
 }
 
 @layer base {
@@ -156,4 +156,25 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+
+/* NOVA visual system — shared across every authenticated screen */
+:root {
+  --nova-red: #cc092f;
+  --nova-red-dark: #a30725;
+  --nova-red-soft: #fff1f2;
+  --nova-surface: #f7f7f8;
+}
+
+@layer components {
+  .nova-page { background: var(--nova-surface); }
+  .nova-card {
+    border: 1px solid #f1d9de;
+    background: #fff;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 14px rgba(90, 20, 35, 0.06);
+  }
+  .nova-section-title { color: #334155; font-size: .95rem; font-weight: 700; }
+  .nova-icon { color: var(--nova-red); }
 }
