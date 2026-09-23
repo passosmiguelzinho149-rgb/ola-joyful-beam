@@ -41,7 +41,7 @@ function Comprovantes() {
               className="flex items-center gap-3 px-4 py-3"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-                <FileCheck size={18} className="text-[#1a2a8a]" />
+                <FileCheck size={18} className="text-[#cc092f]" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-medium leading-tight text-slate-800">
