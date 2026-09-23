@@ -59,7 +59,7 @@ function Pagamentos() {
           className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3"
         >
           <span className="flex items-center gap-2 text-sm text-slate-700">
-            <Repeat size={16} className="text-[#1a2a8a]" /> Ver pagamentos agendados
+            <Repeat size={16} className="text-[#cc092f]" /> Ver pagamentos agendados
           </span>
           <ArrowRight size={16} className="text-[#cc092f]" />
         </Link>
